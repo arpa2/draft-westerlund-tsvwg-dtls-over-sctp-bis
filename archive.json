@@ -1,0 +1,279 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2021-01-14T01:17:28.014833+00:00",
+  "repo": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTI5NTAyNTg1",
+      "title": "Teiclap working",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/1",
+      "state": "MERGED",
+      "author": "teiclap",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added new option and some Use Cases",
+      "createdAt": "2020-11-30T12:03:18Z",
+      "updatedAt": "2020-11-30T13:16:17Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2e0c04dc0e950cfb7f6106a2f94bb7c4064399cc",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "teiclap-working",
+      "headRefOid": "dacefb07bf711031d45cd64b7d2dbc8a7e44dd75",
+      "closedAt": "2020-11-30T13:16:17Z",
+      "mergedAt": "2020-11-30T13:16:17Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "14b332047eacd0021d85478d30b6e7923292f2df"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTQwODk2NzY4",
+          "commit": {
+            "abbreviatedOid": "dacefb0"
+          },
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2020-11-30T13:16:07Z",
+          "updatedAt": "2020-11-30T13:16:07Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTMwOTYyNjA2",
+      "title": "Teiclap working",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/2",
+      "state": "MERGED",
+      "author": "teiclap",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added new section ## DTLS over SCTP service \r\nClarified the initialization, improved the Use Cases",
+      "createdAt": "2020-12-02T11:51:35Z",
+      "updatedAt": "2020-12-02T14:07:56Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "7ca2646bb43723b22bae6a7806c7e1317ca8246f",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "teiclap-working",
+      "headRefOid": "7761c19f905114b8a144caa6ed4342cd8110bb93",
+      "closedAt": "2020-12-02T14:07:56Z",
+      "mergedAt": "2020-12-02T14:07:56Z",
+      "mergedBy": "teiclap",
+      "mergeCommit": {
+        "oid": "be21e0fdb148c3daf1b90285876f87b7da68b4a9"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTMxMDQ1NzA5",
+      "title": "Fixed a double definition",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/3",
+      "state": "MERGED",
+      "author": "teiclap",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Syntax Error",
+      "createdAt": "2020-12-02T14:14:24Z",
+      "updatedAt": "2020-12-02T14:15:55Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "be21e0fdb148c3daf1b90285876f87b7da68b4a9",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "teiclap-working",
+      "headRefOid": "bbe0a3892b2eabbb0011dfc17a2d979703553f2f",
+      "closedAt": "2020-12-02T14:15:55Z",
+      "mergedAt": "2020-12-02T14:15:55Z",
+      "mergedBy": "teiclap",
+      "mergeCommit": {
+        "oid": "53e96a6cb5a01495376dc10703755a9cce5f0257"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTMxODA3NDcw",
+      "title": "Change in the \"DTLS Connection Handling\" part",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/4",
+      "state": "MERGED",
+      "author": "teiclap",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Only one DTLS connection during the whole association lifetime.",
+      "createdAt": "2020-12-03T14:13:59Z",
+      "updatedAt": "2020-12-08T08:23:39Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1cf445c629e828c065e893f194755501b20ec464",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "teiclap-working",
+      "headRefOid": "aeef520acf642ed00bdf1b34a094d0a7e15a3345",
+      "closedAt": "2020-12-08T08:23:39Z",
+      "mergedAt": "2020-12-08T08:23:39Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "eb6d022a34781e8c268769091b302b4b56d464b5"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTM1NzcwNTEx",
+      "title": "Teiclap working",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/5",
+      "state": "MERGED",
+      "author": "teiclap",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added considerations on rx buffer size and CWND",
+      "createdAt": "2020-12-10T08:56:23Z",
+      "updatedAt": "2020-12-10T10:03:08Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "99f77be932d71d98d6d16691ef0ef9a0e4021b93",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "teiclap-working",
+      "headRefOid": "f0caa3ff757dc9ed11642343bd499876e959c55c",
+      "closedAt": "2020-12-10T10:03:08Z",
+      "mergedAt": "2020-12-10T10:03:08Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "40494483c6eb9f95c3eacf2f47feb6614fb54b1f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTM1OTQ5MTc2",
+      "title": "Teiclap working",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/6",
+      "state": "MERGED",
+      "author": "teiclap",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2020-12-10T13:47:43Z",
+      "updatedAt": "2020-12-11T14:25:14Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "ffee571b9be293d7a82c14799ce9af43724afa2e",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "teiclap-working",
+      "headRefOid": "1acf36e83080ac047341caa89adf82a80a25ac17",
+      "closedAt": "2020-12-11T14:25:14Z",
+      "mergedAt": "2020-12-11T14:25:14Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "5b1e1febe5619e359bdfa3c451751620c00141bf"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 7,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTQwMTEyNTA2",
+      "title": "Teiclap working",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/7",
+      "state": "MERGED",
+      "author": "teiclap",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Made a number of typo fixes and some minor changes",
+      "createdAt": "2020-12-15T09:38:51Z",
+      "updatedAt": "2020-12-15T09:52:57Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c3068663d37dbc2b23748ff66232aa8a07c5c509",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "teiclap-working",
+      "headRefOid": "3d53a1c62acfe3dea1e51286ea1e1dffe212b116",
+      "closedAt": "2020-12-15T09:52:57Z",
+      "mergedAt": "2020-12-15T09:52:57Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "db8158c91191b5a76f8308f1f3a77583a27d6296"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTUyMjc4MDAz",
+          "commit": {
+            "abbreviatedOid": "3d53a1c"
+          },
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2020-12-15T09:52:48Z",
+          "updatedAt": "2020-12-15T09:52:48Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
