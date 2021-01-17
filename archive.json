@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-01-14T01:17:28.014833+00:00",
+  "timestamp": "2021-01-17T01:15:24.653029+00:00",
   "repo": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
   "labels": [
     {
@@ -49,7 +49,24 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 8,
+      "id": "MDU6SXNzdWU3ODY5Njc3MDk=",
+      "title": "Clarify SCTP + SCPT-AUTH replay protection",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/8",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Recevied this comment from Mohamed Boucadair\r\n\r\nI have a question about this text: \r\n\r\n   As SCTP with SCTP-AUTH provides replay protection for DATA chunks,\r\n   DTLS/SCTP provides replay protection for user messages.\r\n\r\nRFC4895 says the following: \r\n\r\n   Because SCTP already has a built-in mechanism that handles the\r\n   reception of duplicated chunks, the presented solution makes use of\r\n   this functionality and does not provide a method to avoid replay\r\n   attacks by itself.\r\n\r\nWith that in mind, what is meant by \"SCTP with SCTP-AUTH\"?\r\n\r\nSo we should clarify what we refer to when stating that replay protection exists prior to the decryption of DTLS records. ",
+      "createdAt": "2021-01-15T15:10:38Z",
+      "updatedAt": "2021-01-15T15:10:38Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
