@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-01-17T01:15:24.653029+00:00",
+  "timestamp": "2021-02-18T00:35:23.758254+00:00",
   "repo": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
   "labels": [
     {
@@ -288,6 +288,88 @@
           "body": "",
           "createdAt": "2020-12-15T09:52:48Z",
           "updatedAt": "2020-12-15T09:52:48Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc0MDQyOTA3",
+      "title": "Teiclap working",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/9",
+      "state": "MERGED",
+      "author": "teiclap",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-02-16T09:16:22Z",
+      "updatedAt": "2021-02-17T08:38:12Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "d91b9f8c30704108b25b5262e69263794426f9fd",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "teiclap-working",
+      "headRefOid": "98dc7caf1fdccc875b02bfa21d3ef9ccde2c3fb3",
+      "closedAt": "2021-02-17T08:38:12Z",
+      "mergedAt": "2021-02-17T08:38:12Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "1b961d99c751dc61c5698523df90a3e42ab236df"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTkxOTQ2NjIz",
+          "commit": {
+            "abbreviatedOid": "98dc7ca"
+          },
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-02-17T08:37:45Z",
+          "updatedAt": "2021-02-17T08:37:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc0ODI2NTc5",
+      "title": "Proposal to fix issue #8 Replay Protection Clarification",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/10",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a proposal to address issue #8 ",
+      "createdAt": "2021-02-17T10:57:40Z",
+      "updatedAt": "2021-02-17T12:12:26Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1b961d99c751dc61c5698523df90a3e42ab236df",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "replay-protection-i8",
+      "headRefOid": "9ce2b6e091bec55d15cf67435d9746486e3aedc0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTkyMTI4MzUz",
+          "commit": {
+            "abbreviatedOid": "9ce2b6e"
+          },
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-02-17T12:12:26Z",
+          "updatedAt": "2021-02-17T12:12:26Z",
           "comments": []
         }
       ]
