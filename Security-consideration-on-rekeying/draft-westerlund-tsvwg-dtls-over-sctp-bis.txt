@@ -491,15 +491,16 @@ Table of Contents
    establishing shared secrets for SCTP-AUTH.
 
    The endpoint-pair shared secret for Shared Key Identifier 0 is empty
-   and MUST be used when establishing a DTLS connection.  Whenever the
-   master key changes, a 64-byte shared secret is derived from every
-   master secret and provided as a new endpoint-pair shared secret by
-   using the TLS-Exporter.  For DTLS 1.3, the exporter is described in
-   [RFC8446].  For DTLS 1.2, the exporter is described in [RFC5705].
-   The exporter MUST use the label given in Section Section 6 and no
-   context.  The new Shared Key Identifier MUST be the old Shared Key
-   Identifier incremented by 1.  If the old one is 65535, the new one
-   MUST be 1.
+   and MUST be used when establishing a DTLS connection.  In DTLS 1.2,
+   whenever the master key changes, a 64-byte shared secret is derived
+   from every master secret and provided as a new endpoint-pair shared
+   secret by using the TLS-Exporter.  In DTLS 1.3, the
+   exporter_master_secret never change.  For DTLS 1.3, the exporter is
+   described in [RFC8446].  For DTLS 1.2, the exporter is described in
+   [RFC5705].  The exporter MUST use the label given in
+   Section Section 6 and no context.  The new Shared Key Identifier MUST
+   be the old Shared Key Identifier incremented by 1.  If the old one is
+   65535, the new one MUST be 1.
 
    Before sending the DTLS Finished message, the active SCTP-AUTH key
    MUST be switched to the new one.
