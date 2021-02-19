@@ -6,9 +6,9 @@ TSVWG                                                      M. Westerlund
 Internet-Draft                                         J. Preuß Mattsson
 Obsoletes: 6083 (if approved)                                 C. Porfiri
 Intended status: Standards Track                                Ericsson
-Expires: 21 August 2021                                        M. Tuexen
+Expires: 23 August 2021                                        M. Tuexen
                                         Muenster Univ. of Appl. Sciences
-                                                        17 February 2021
+                                                        19 February 2021
 
 
       Datagram Transport Layer Security (DTLS) over Stream Control
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 August 2021.
+   This Internet-Draft will expire on 23 August 2021.
 
 Copyright Notice
 
@@ -346,8 +346,13 @@ Table of Contents
 
 3.4.  Replay Protection
 
-   As SCTP with SCTP-AUTH provides replay protection for DATA chunks,
-   DTLS/SCTP provides replay protection for user messages.
+   SCTP-AUTH [RFC4895] does not have explicit replay protection.
+   However, the combination of SCTP-AUTH's protection of DATA or I-DATA
+   chunks and SCTP user message handling will prevent third party
+   attempts to inject or replay SCTP packets resulting in impact on the
+   received protected user message.  In fact this document's solution is
+   dependent on SCTP-AUTH and SCTP to prevent reordering of the DTLS
+   records witin each protected user message.
 
    DTLS optionally supports record replay detection.  Such replay
    detection could result in the DTLS layer dropping valid messages
