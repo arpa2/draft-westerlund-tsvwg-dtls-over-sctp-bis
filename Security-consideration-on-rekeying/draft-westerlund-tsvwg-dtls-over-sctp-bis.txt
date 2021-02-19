@@ -102,7 +102,7 @@ Table of Contents
      4.4.  Stream Usage
      4.5.  Chunk Handling
      4.6.  SCTP-AUTH Hash Function
-     4.7.  Renkeying
+     4.7.  Rekeying
      4.8.  DTLS Epochs
      4.9.  Handling of Endpoint-Pair Shared Secrets
      4.10. Shutdown
@@ -466,7 +466,7 @@ Table of Contents
    requirements the HMAC-ALGO parameter will include both SHA-256 and
    SHA-1 with SHA-256 listed prior to SHA-1 to indicate the preference.
 
-4.7.  Renkeying
+4.7.  Rekeying
 
    Renegotiation enables rekeying inside an DTLS 1.2 connection.  It is
    up to the upper layer to use/allow it or not.  Application writers
