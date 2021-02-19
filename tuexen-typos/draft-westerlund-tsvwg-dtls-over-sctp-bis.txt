@@ -106,7 +106,7 @@ Table of Contents
      4.8.  DTLS Epochs
      4.9.  Handling of Endpoint-Pair Shared Secrets
      4.10. Shutdown
-   5.  DTLS over SCTP service
+   5.  DTLS over SCTP Service
      5.1.  Adaptation Layer Indication in INIT/INIT-ACK
      5.2.  DTLS/SCTP "dtls_over_sctp_maximum_message_size" Extension
      5.3.  DTLS over SCTP Initialization
@@ -523,7 +523,7 @@ Table of Contents
    user messages that are buffered in the SCTP layer MUST be read and
    processed by DTLS.
 
-5.  DTLS over SCTP service
+5.  DTLS over SCTP Service
 
    The adoption of DTLS over SCTP according to the current description
    is meant to add to SCTP the option for transferring encrypted data.
@@ -592,7 +592,7 @@ Table of Contents
    When all the above options are present, the Association will start
    with support of DTLS/SCTP.  The set of options indicated are the
    DTLS/SCTP Mandatory Options.  No data transfer is permitted before
-   DTLS handshake is complete.  Data chunks that are received before
+   DTLS handshake is complete.  DATA chunks that are received before
    DTLS handshake will be silently discarded.  Chunk bundling is
    permitted according to [RFC4960].  The DTLS handshake will enable
    authentication of both the peers and also have the declare their
