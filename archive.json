@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-18T00:35:23.758254+00:00",
+  "timestamp": "2021-02-21T00:36:58.743615+00:00",
   "repo": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
   "labels": [
     {
@@ -55,14 +55,540 @@
       "id": "MDU6SXNzdWU3ODY5Njc3MDk=",
       "title": "Clarify SCTP + SCPT-AUTH replay protection",
       "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/8",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gloinul",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Recevied this comment from Mohamed Boucadair\r\n\r\nI have a question about this text: \r\n\r\n   As SCTP with SCTP-AUTH provides replay protection for DATA chunks,\r\n   DTLS/SCTP provides replay protection for user messages.\r\n\r\nRFC4895 says the following: \r\n\r\n   Because SCTP already has a built-in mechanism that handles the\r\n   reception of duplicated chunks, the presented solution makes use of\r\n   this functionality and does not provide a method to avoid replay\r\n   attacks by itself.\r\n\r\nWith that in mind, what is meant by \"SCTP with SCTP-AUTH\"?\r\n\r\nSo we should clarify what we refer to when stating that replay protection exists prior to the decryption of DTLS records. ",
       "createdAt": "2021-01-15T15:10:38Z",
-      "updatedAt": "2021-01-15T15:10:38Z",
+      "updatedAt": "2021-02-19T12:12:52Z",
+      "closedAt": "2021-02-19T12:12:52Z",
+      "comments": [
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "Believe this issue is resolved now with the improved text. Closing issue.",
+          "createdAt": "2021-02-19T12:12:52Z",
+          "updatedAt": "2021-02-19T12:12:52Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "MDU6SXNzdWU4MTE1MzE3Nzc=",
+      "title": "Don't refer to partial message API",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/11",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "SCTP stacks can handle large received messages. There is no requirement to use the SocketAPI, although we make sure things can be implemented using it...",
+      "createdAt": "2021-02-18T22:46:40Z",
+      "updatedAt": "2021-02-19T12:15:48Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "So we can probably update the text to be more generic in the requirement on messages sizes. Possibly we could move the whole discussion about the interaction between the different layer's buffering requirement into an appendix.",
+          "createdAt": "2021-02-19T12:15:48Z",
+          "updatedAt": "2021-02-19T12:15:48Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "MDU6SXNzdWU4MTE1MzUzMDI=",
+      "title": "Allow re-negotiation for DTLS 1.2",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/12",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "To allow refreshing the keys.",
+      "createdAt": "2021-02-18T22:53:49Z",
+      "updatedAt": "2021-02-19T12:18:21Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Renegotiation seems to be disabled by default  in many DTLS implementation due to security problems. Might be ok to use as long as RFC 5476 is mandates, but my understanding is some security isssues still remain. Also not perfect to rely on parts of TLS libraries that are normally disables.\r\n\r\nhttps://security.stackexchange.com/questions/24554/should-i-use-ssl-tls-renegotiation/230327#230327\r\n\r\nI made a PR that allows renegotiation and added security considerations.",
+          "createdAt": "2021-02-19T06:15:39Z",
+          "updatedAt": "2021-02-19T06:15:39Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "So, the PR was #21 and that was merged after direct discussion and review. ",
+          "createdAt": "2021-02-19T12:18:20Z",
+          "updatedAt": "2021-02-19T12:18:20Z"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "MDU6SXNzdWU4MTE1MzY3NDE=",
+      "title": "Allow key updates for DTLS 1.3",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/13",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We need the sender dry dance here (similar to the re-negotiation), I guess.",
+      "createdAt": "2021-02-18T22:56:44Z",
+      "updatedAt": "2021-02-19T14:36:37Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This was allowed but not described. I made a PR describing this. A problem is that KeyUpdate in DTLS 1.3 does not change the exporter master secret so we might need to add some sequence number to the exporter....",
+          "createdAt": "2021-02-19T06:12:27Z",
+          "updatedAt": "2021-02-19T06:12:27Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "So the PR #21 does the information text. But the question about exporter remains. ",
+          "createdAt": "2021-02-19T12:19:57Z",
+          "updatedAt": "2021-02-19T12:19:57Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, if new keys are needed we would need to add a sequence to the label or the context of the exporter. EAP-TLS 1.3 wanted to put a type code in the context but TLS people rather wanted concatenation with the label. (just a matter principles)\r\n\r\nMight also be the case the we don't derive any new key for SCTP-AUTH and uses the same key during the lifetime of the DTLS connection. Untruncated HMAC-256 is very strong and has 256-bit key. (need to check these details, but I think it is a 32 byte key and tag). Without PFS the only reason to rekey would be AEAD limits. ",
+          "createdAt": "2021-02-19T12:48:15Z",
+          "updatedAt": "2021-02-19T12:48:15Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> This was allowed but not described. I made a PR describing this. A problem is that KeyUpdate in DTLS 1.3 does not change the exporter master secret so we might need to add some sequence number to the exporter....\r\n\r\nInteresting. Do you know why that master secret is not changed?",
+          "createdAt": "2021-02-19T13:31:24Z",
+          "updatedAt": "2021-02-19T13:31:24Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Might also be the case the we don't derive any new key for SCTP-AUTH and uses the same key during the lifetime of the DTLS connection. Untruncated HMAC-256 is very strong and has 256-bit key. (need to check these details, but I think it is a 32 byte key and tag). Without PFS the only reason to rekey would be AEAD limits.\r\n\r\nOK. But why do we perform a change of key material used by DTLS layer and not perform one at SCTP layer?\r\n\r\n",
+          "createdAt": "2021-02-19T13:39:52Z",
+          "updatedAt": "2021-02-19T13:39:52Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The TLS AEAD (e.g. AES-GCM) need to change keys quite frequently. TLS 1.3 has put very strict limits of around s^23 records (or something like that). The HMAC-SHA256 is mush stronger and could be much longer without changign keys (for this reasons).\r\n\r\nYou might still want to change both keys to limit the effect of key leakage. That would with current TLS 1.3 require terminating the TLS connection and do resumption.",
+          "createdAt": "2021-02-19T14:06:08Z",
+          "updatedAt": "2021-02-19T14:06:08Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't know for certain why the key is not changed but I can speculate.\r\n\r\nThe renegotiation in earlier versions was basically a handshake inside the connection theoretically allowing renegotiation of all parameters. It has been troubled with a lot of security issues, partly because it is big and complex. It seems to be disables in most libraries by default, but I don't know how severe the remaining security problems are.\r\n\r\nGiven this, I think the TLS working group wanted something small and simple that they could prove the security of. Also web connections are typically not that long. Some use cases of the Exported like EAP-TLS use the exporter once and then closes the connection. I guess nobody required this property when TLS 1.3 was designed.",
+          "createdAt": "2021-02-19T14:12:43Z",
+          "updatedAt": "2021-02-19T14:12:43Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I don't know for certain why the key is not changed but I can speculate.\r\n> \r\n> The renegotiation in earlier versions was basically a handshake inside the connection theoretically allowing renegotiation of all parameters. It has been troubled with a lot of security issues, partly because it is big and complex. It seems to be disables in most libraries by default, but I don't know how severe the remaining security problems are.\r\n> \r\n> Given this, I think the TLS working group wanted something small and simple that they could prove the security of. Also web connections are typically not that long. Some use cases of the Exported like EAP-TLS use the exporter once and then closes the connection. I guess nobody required this property when TLS 1.3 was designed.\r\n\r\nThank you very much for the explanation.",
+          "createdAt": "2021-02-19T14:28:19Z",
+          "updatedAt": "2021-02-19T14:28:19Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> The TLS AEAD (e.g. AES-GCM) need to change keys quite frequently. TLS 1.3 has put very strict limits of around s^23 records (or something like that). The HMAC-SHA256 is mush stronger and could be much longer without changign keys (for this reasons).\r\n> \r\nOK.\r\n> You might still want to change both keys to limit the effect of key leakage. That would with current TLS 1.3 require terminating the TLS connection and do resumption.\r\n\r\nSure. Thanks for the clarification.\r\n\r\nI was just looking for symmetry between\r\n\r\n1. DTLS 1.2 where a renegotiation is performed to refresh keys\r\n2. DTLS 1.3 where re-keying is performed to refresh keys\r\n\r\nand updating the SCTP level key for 1. but not for 2.",
+          "createdAt": "2021-02-19T14:34:11Z",
+          "updatedAt": "2021-02-19T14:36:37Z"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "MDU6SXNzdWU4MTE1Mzg1MzE=",
+      "title": "An application cannot control SCTP level revoking",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/14",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-02-18T23:00:25Z",
+      "updatedAt": "2021-02-19T15:16:48Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "```\r\nTo prevent DTLS from discarding DTLS user messages while it is shutting down,\r\na CloseNotify message MUST only be sent after all outstanding SCTP user\r\nmessages have been acknowledged by the SCTP peer and MUST NOT be\r\nrevoked by the SCTP peer.\u00b6\r\n```\r\ndoesn't make sense. At least it needs rewording.",
+          "createdAt": "2021-02-18T23:01:47Z",
+          "updatedAt": "2021-02-18T23:01:47Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "That text was in RFC 6083.\r\n\r\nTo my understanding the issue here is that if the DTLS layer sends a protected user message  and immediately after that does SCTP association close, then if that close is acted on the DTLS record may not have been completely delivered. Which if partial delivered records are provided to the received implementation and then forces decryption and integrity verification, then the receiver will have DTLS connection failure also at the end. Thus, for a controlled close, each peer needs to first stop sending data, then verify that the data has been delivered on all streams before it does an close on the SCTP association. \r\n\r\nSo yes, this do need an reformulation. ",
+          "createdAt": "2021-02-19T12:26:03Z",
+          "updatedAt": "2021-02-19T12:26:03Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ahh, I see. Now I remember. That is the generic formulation for the sender dry dance.... The reason for this is that you need to avoid the DTLS layer to drop messages due to non-expected epoch values. So the sender sends everything with the old epoch, waits until the cum ack goes by (this is the revoking part) and then sends they new epoch. On the receiver side when getting the first first message for the new epoch, the receiver must empty the receive buffer first.\r\nThe point here is that only messages on stream 0 are in sequence...\r\nI think this dance is still needed, but John thinks different. I'll open an issue for discussing this.",
+          "createdAt": "2021-02-19T12:48:16Z",
+          "updatedAt": "2021-02-19T12:48:16Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "I think this comes down to how strict the DTLS stack will be with epochs for individual records close to the change of keys. I think we really don't want epoch changes between DTLS records within a protected user message. So the sender would need to complete the protection operation of user messages being protected, then perform the key change, then it can process new messages. Which from a sender perspective introduce some delay but not horribly much. \r\n\r\n1. Indicated need to rekey, or renegotiation message received.\r\n2. Lock for accepting new user messages\r\n3. Empty sending queue, i.e. all data delivered to SCTP. \r\n4. Perform rekeying (may include message exchange with peer)\r\n5. Unlock for new messages.\r\n\r\nI think the receiver side is much harder if one can't retrieve the previous key for a short duration until one have ensured that each individual protected user message protected by the old key have been processed. We have to take into account that user messages on different streams may be down prioritized or subject to packet losses require retransmission.  ",
+          "createdAt": "2021-02-19T15:05:32Z",
+          "updatedAt": "2021-02-19T15:05:32Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I think this comes down to how strict the DTLS stack will be with epochs for individual records close to the change of keys. I think we really don't want epoch changes between DTLS records within a protected user message. So the sender would need to complete the protection operation of user messages being protected, then perform the key change, then it can process new messages. Which from a sender perspective introduce some delay but not horribly much.\r\n> \r\n> 1. Indicated need to rekey, or renegotiation message received.\r\n> 2. Lock for accepting new user messages\r\n> 3. Empty sending queue, i.e. all data delivered to SCTP.\r\n> 4. Perform rekeying (may include message exchange with peer)\r\n> 5. Unlock for new messages.\r\n> \r\n> I think the receiver side is much harder if one can't retrieve the previous key for a short duration until one have ensured that each individual protected user message protected by the old key have been processed. We have to take into account that user messages on different streams may be down prioritized or subject to packet losses require retransmission.\r\n\r\nAs I said, we need to drain the sender side (which is ensuring nothing is buffered anymore in the SCTP layer; when using the socket API, this is waiting for the sender dry event). Then send the new message. On the receiver side when getting this new message, buffer it, read all other messages from SCTP, and finally process it. This way we can make sure all oder messages are processed.\r\n\r\nBTW: the sender dry event was defined for exactly this use...",
+          "createdAt": "2021-02-19T15:15:46Z",
+          "updatedAt": "2021-02-19T15:16:48Z"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "MDU6SXNzdWU4MTE1NDc0NDE=",
+      "title": "Avoid DTLS-Supported option",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/15",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Use an adaptation layer indication",
+      "createdAt": "2021-02-18T23:16:09Z",
+      "updatedAt": "2021-02-19T15:21:54Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "Yes, this has been accepted among the authors, and the removal of the DTLS-supported option has been done in PR #18.\r\n\r\nDoesn't the IANA section for the Adaptation layer need a bit more text? ",
+          "createdAt": "2021-02-19T12:28:51Z",
+          "updatedAt": "2021-02-19T12:28:51Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Normally I provide the table entry to be added, but I don't know how to do tables in Markdown, according to the markdown spec in https://spec.commonmark.org/0.29/.",
+          "createdAt": "2021-02-19T13:08:16Z",
+          "updatedAt": "2021-02-19T13:08:16Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "So if you want to make a table, then it is more a question of how kramdown handles this. \r\n\r\nDepending on what you want to accomplish. I noticed that HTTP/3 spec has a table in this section:\r\n\r\nhttps://www.ietf.org/archive/id/draft-ietf-quic-http-34.html#name-http-framing-layer\r\n\r\nThe markdown source for that table is the below. \r\nhttps://github.com/quicwg/base-drafts/blob/master/draft-ietf-quic-http.md\r\n\r\n\r\n`| Frame          | Control Stream | Request Stream | Push Stream | Section                  |`\r\n`| -------------- | -------------- | -------------- | ----------- | ------------------------ |`\r\n`| DATA           | No             | Yes            | Yes         | {{frame-data}}           |`\r\n`| HEADERS        | No             | Yes            | Yes         | {{frame-headers}}        |`\r\n`| CANCEL_PUSH    | Yes            | No             | No          | {{frame-cancel-push}}    |`\r\n`| SETTINGS       | Yes (1)        | No             | No          | {{frame-settings}}       |`\r\n`| PUSH_PROMISE   | No             | Yes            | No          | {{frame-push-promise}}   |`\r\n`| GOAWAY         | Yes            | No             | No          | {{frame-goaway}}         |`\r\n`| MAX_PUSH_ID    | Yes            | No             | No          | {{frame-max-push-id}}    |`\r\n`| Reserved       | Yes            | Yes            | Yes         | {{frame-reserved}}       |`\r\n`{: #stream-frame-mapping title=\"HTTP/3 Frames and Stream Type Overview\"}`",
+          "createdAt": "2021-02-19T15:17:11Z",
+          "updatedAt": "2021-02-19T15:21:54Z"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "MDU6SXNzdWU4MTE1OTIzODI=",
+      "title": "AUTH related issues",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/16",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "1. Only SHA-1 is mandatory to implement.\r\n2. SHA-1 can't be disabled via the socket API for the algorithm requested to be used by the peer.\r\n3. The AUTH negotiation relies on an acceptable mandatory to implement algorithm.\r\n4. There is no socket option to query which algorithm is used to send AUTH chunks.\r\n5. What about SHA-384 and SHA-512?\r\n\r\n1.-3. could be addressed by requiring that SCTP AUTH used SHA-256 instead of SHA-1 as mandatory to implement. 4. Can easily be addressed by adding another socket option. It would be nice to address 5., but that is not necessary.\r\n",
+      "createdAt": "2021-02-19T00:54:54Z",
+      "updatedAt": "2021-02-19T00:54:54Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 17,
+      "id": "MDU6SXNzdWU4MTE2MDU1MTk=",
+      "title": "Fallback?",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/17",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tuexen"
+      ],
+      "labels": [],
+      "body": "```\r\nIf the peer replies with an INIT-ACK not containing all DTLS/SCTP\r\nMandatory Options, the Client can decide to keep on working with\r\nRFC 6083 fallaback, plain data only, or to ABORT the association.\r\n```\r\nHow does this work? If the `RANDOM`, `CHUNKS`, or `HMAC-ALGO` parameter is missing, RFC 6083 does not work. So the only possibility is that `ADAPTATION-LAYER-INDICATION` is\r\nmissing or only SHA-1 is offered. That would mean RFC 6083 is used in combination with DTLS 1.2 or DTLS 1.3. I would vote for ABORTing. In the other cases, aren't we providing a way for downgrade attacks (SHA-256 -> SHA-1)? ",
+      "createdAt": "2021-02-19T01:27:25Z",
+      "updatedAt": "2021-02-19T15:35:43Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "So, I  would note that the first section discuss the risks of fallback and recommend against it and requiring an explicit policy setting to enable it. Yes, it implies risking downgrade. \r\n\r\nThis section discusses how an endpoint supporting this specification can fallback to follow the DTLS/SCTP behavior in RFC 6083. It is recommended to define a setting that represents the policy to allow fallback or not. However, the possibility to use fallback is based on the ULP can operate using user messages that are no longer than 16383 bytes. Fallback is NOT RECOMMEND to be enabled as it enables downgrade to weaker algorithms and versions of DTLS.\r\n\r\nHowever, there are likely some transition cases that are going to need this. So doing RFC6083 with DTLS 1.2 or 1.3 is clearly possible. But the text do need a bit of update due to the change. ",
+          "createdAt": "2021-02-19T15:35:43Z",
+          "updatedAt": "2021-02-19T15:35:43Z"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "id": "MDU6SXNzdWU4MTE2MjMxMDg=",
+      "title": "Usage of SHA-1 in RFC 6083",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/19",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Why is\r\n```\r\nFor an RFC 6083 client it is likely that the preferred HMAC-ALGO indicates SHA-1.\r\n```\r\ntrue? RFC 6083 does not make a statement...",
+      "createdAt": "2021-02-19T02:15:31Z",
+      "updatedAt": "2021-02-19T18:23:24Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "So that statement is based on that SHA-1 is mandatory to implement in 4895 and thus will be included in the algorithm list.",
+          "createdAt": "2021-02-19T15:37:12Z",
+          "updatedAt": "2021-02-19T15:37:12Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "You are correct, that SHA-1 is the only mandatory to implement algorithm, but SHA-256 is also defined. FreeBSD supports both and prefers SHA-256. So when using only FreeBSD machines with RFC 6083, SHA-256 will be used. Linux only implements SHA-1. So if a FreeBSD machine talks to a Linux machine, SHA-1 will be used. There is no statement in RFC 6083 or RFC 4895 that SHA-1 is preferred. The point is: RFC 6083 make no statement and leaves the choice to the SCTP stack.",
+          "createdAt": "2021-02-19T18:23:24Z",
+          "updatedAt": "2021-02-19T18:23:24Z"
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "MDU6SXNzdWU4MTE3MTI3NzA=",
+      "title": "Rekeying in DTLS 1.2",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/22",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Renegotiation seems to be disables in a lot of libraries.\r\n\r\nhttps://security.stackexchange.com/questions/24554/should-i-use-ssl-tls-renegotiation/230327#230327\r\n\r\nMight be ok as long as RFC 5746 is used,\r\n\r\nhttps://tools.ietf.org/html/rfc5746\r\n\r\nbut there are still attacks and weaknesses remaining. Not sure how severe the attacks are. But that the feature seems to be disables by default is quite bad. Such corners of the code base is not reviewed much and might contain other bugs and implementation weaknesses....\r\n\r\n\r\n",
+      "createdAt": "2021-02-19T05:42:27Z",
+      "updatedAt": "2021-02-19T05:42:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 23,
+      "id": "MDU6SXNzdWU4MTE3MTQ5NjQ=",
+      "title": "Rekying in DTLS 1.3",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/23",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "DTLS 1.3 removed renegotiation and replaces it with symmetric Post-Handshake KeyUpdate.\r\n\r\nKeyUpdate provides less security properties than rerunning Diffie-Hellman. This might be ok, but the properties are below what government requirements stipulate for IPsec.\r\n\r\nKeyUpdate in DTLS 1.3 does not update the exporter_master_secret. Any update of keys for SCTP-AUTH needs to be done by adding some information to the exporter label.....",
+      "createdAt": "2021-02-19T05:46:45Z",
+      "updatedAt": "2021-02-19T05:46:45Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 24,
+      "id": "MDU6SXNzdWU4MTE3MjAyOTI=",
+      "title": "Limitation for key material lifetime",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/24",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "DTLS 1.2 (from RFC 5246):\r\n  \"An upper limit of 24 hours is suggested for\r\n   session ID lifetimes, since an attacker who obtains a master_secret\r\n   may be able to impersonate the compromised party until the\r\n   corresponding session ID is retired.\"\r\n\r\nDTLS 1.3 (from RFC 8446):\r\n  \"It is RECOMMENDED that\r\n   implementations place limits on the total lifetime of such keying\r\n   material; these limits should take into account the lifetime of the\r\n   peer's certificate, the likelihood of intervening revocation, and the\r\n   time since the peer's online CertificateVerify signature.\"\r\n\r\n64-bit sequence numers should not be a problem as they require 2^32 records every second for 136 years to overflow. They also reset after KeyUpdate or renegotiation. \r\n\r\nI assume DTLS/SCTP need to override the DTLS 1.2 lifetime of 24 hours.\r\n\r\n\r\n",
+      "createdAt": "2021-02-19T05:56:37Z",
+      "updatedAt": "2021-02-19T14:38:23Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "How long lived would the DTLS/SCTP connections be? days, weeks, months, years?\r\n",
+          "createdAt": "2021-02-19T06:16:19Z",
+          "updatedAt": "2021-02-19T06:16:19Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Likely months or years.\r\n\r\n- We need to state explicitly we are not following the DTLS 1.2 suggestion. Can be motivated by the fact that DTLS 1.3 removes it.\r\n- We need to discuss and maybe give recommendations for how often to require authentication, rekeying, and ECDHE, and any lifetime restrictions on key material apply.\r\n\r\nIn DTLS 1.2,\r\nRenegotiation gives authentication, rekeying, and ECDHE\r\n\r\nIn DTLS 1.3,\r\nPost-Handshake KeyUpdate at any time gives rekeying\r\nPost-Handshake authenticated  can be done at any time\r\nECDHE cannot be done inside the conenction and require resumption, which might cause disruptions.      \r\n\r\n",
+          "createdAt": "2021-02-19T11:04:05Z",
+          "updatedAt": "2021-02-19T11:04:05Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "3GPP protocols are semipermanent and assumes a standing association between nodes.",
+          "createdAt": "2021-02-19T11:06:51Z",
+          "updatedAt": "2021-02-19T11:06:51Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Might be possible to extend TLS 1.3 with a PSF Post-Handshake rekeying mechanism in the future.\r\n",
+          "createdAt": "2021-02-19T11:17:13Z",
+          "updatedAt": "2021-02-19T11:17:13Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I assume DTLS/SCTP need to override the DTLS 1.2 lifetime of 24 hours.\r\n\r\nIsn't it a statement about the lifetime of the session ID when used for session resumption and not a statement about the lifetime of a TLS connection?\r\n",
+          "createdAt": "2021-02-19T11:45:45Z",
+          "updatedAt": "2021-02-19T11:45:45Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\"An upper limit of 24 hours is suggested for\r\nsession ID lifetimes, since an attacker who obtains a master_secret\r\nmay be able to impersonate the compromised party until the\r\ncorresponding session ID is retired.\"\r\n\r\nThe text is stated in the resumption section, but I don't think the sentence itself is about resumption. In TLS 1.2 the session ID is created in the full handshake and reused in all resumption. So the session ID lifetime could span several connections. I don't think it matters if you do resumption from a security perspective (but I would have to reread TLS 1.2 resumption).\r\n\r\nMight be that I am interpreting the sentence wrong, but the session ID lifetimes in DTLS/SCTP would be months or ever years.",
+          "createdAt": "2021-02-19T12:40:23Z",
+          "updatedAt": "2021-02-19T12:40:23Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So you are basically saying that in particular no TLS connection can live longer that 24 hours?\r\n",
+          "createdAt": "2021-02-19T13:13:44Z",
+          "updatedAt": "2021-02-19T13:13:44Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think RFC 5216 \"suggsts\" that. But it is not a normative SHOULD or MUST.\r\n",
+          "createdAt": "2021-02-19T14:15:11Z",
+          "updatedAt": "2021-02-19T14:15:11Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I think RFC 5216 \"suggsts\" that. But it is not a normative SHOULD or MUST.\r\n\r\nSure. But it is the basic message... Wasn't aware of that limitation. Thanks for the clarification.",
+          "createdAt": "2021-02-19T14:38:22Z",
+          "updatedAt": "2021-02-19T14:38:22Z"
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "id": "MDU6SXNzdWU4MTIwMDU3NTI=",
+      "title": "Epoch handling",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/25",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 4.8 describes the epoch handling and relies on the methods described for example in Section 4.2.1 to avoid message loss within the DTLS layer. I don't think that this works. One reason is that it is assumed that after an MSL no messages from an older epoch can be received anymore. How can this be concluded?\r\n\r\n1. Even RFC 793 states for MSL: Arbitrarily defined to be 2 minutes.\r\n2. For making sure that no TCP segments from an old TCP connection are in the network anymore, TCP waits twice as long.\r\n3. We need to consider the time time-interval between the DTLS layer at the sending side passes the message to its lower layer and the DTLS layer at the receiving side get the message from its lower layer. When using DTLS/UDP and assuming that the UDP and IP layer do not buffer messages, this time interval can be approximated by the MSL. However when considering DTLS/SCTP, we also need to consider the time a message can be buffered in the SCTP layer. This can not be bound by an MSL.\r\n\r\nTherefore I think we need to do the draining game also used for DTLS 1.0/SCTP. Or am I missing anything?",
+      "createdAt": "2021-02-19T13:03:00Z",
+      "updatedAt": "2021-02-19T13:04:05Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 27,
+      "id": "MDU6SXNzdWU4MTIwOTMwNzY=",
+      "title": "Strange sentence",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/27",
+      "state": "OPEN",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "```\r\nDATA chunks that are received before DTLS handshake will be silently discarded.\r\n```\r\nNeeds to be changed.",
+      "createdAt": "2021-02-19T15:01:01Z",
+      "updatedAt": "2021-02-19T15:52:17Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "Yes, that needs to be addressed. So in difference with RFC 6083, if one intended to use DTLS, no unprotected user messages should be sent. So what can arrive are either protected user messages or DTLS handshake messages on Stream 0. So stating that any data that has been sent will be ignored is not really protection against anything other than preventing misuse. But, it really ends up a question what the DTLS layer does with things that aren't DTLS records. ",
+          "createdAt": "2021-02-19T15:46:19Z",
+          "updatedAt": "2021-02-19T15:46:19Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "How do you handle a starttls like setup used for example in [RFC 3788](https://tools.ietf.org/html/rfc3788)? I think the point is that once an SCTP association is handled by an DTLS implementation, the DTLS implementation should terminate the SCTP association if it can't parse the record.",
+          "createdAt": "2021-02-19T15:52:17Z",
+          "updatedAt": "2021-02-19T15:52:17Z"
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "MDU6SXNzdWU4MTIxNDA3ODY=",
+      "title": "Handling of partial reliable protected user messages",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/28",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "So the partial delivery of user messages will create situation where some DTLS records in a sequence of a protected used message will not be delivered in its entirety. Thus, I think we need to add some words on how one handles this situation. \r\n\r\nFirst, there is the question of ensuring that any buffer containing data that contains partial DTLS record are flushed. \r\nSecondly, if one have a partial delivery API towards the application, then that needs to get a error indication that this user message was not delivered in its entirety. \r\n\r\nThese issues are much more significant for this spec than it was for RFC 6083, where the DTLS record needed to be complete to decrypt and pass integrity. In this case one or more DTLS records from the start might be delivered.\r\n\r\n",
+      "createdAt": "2021-02-19T16:01:15Z",
+      "updatedAt": "2021-02-19T21:33:17Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Question: Why do we need to deal with the upper layer API of DTLS at all? Normally the IETF doesn't do it at all and, I think, doing the socket API for SCTP was a special thing.",
+          "createdAt": "2021-02-19T16:28:54Z",
+          "updatedAt": "2021-02-19T16:28:54Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Doesn't imply\r\n```\r\nDTLS/SCTP, automatically fragments and reassembles user messages\r\n```\r\natomic `send()`/`recv()` calls?",
+          "createdAt": "2021-02-19T16:35:29Z",
+          "updatedAt": "2021-02-19T16:35:29Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "I am concerned with the SCTP<-> DTLS interactions due to partially receiving protected user message. The DTLS layer with the current definition is dependent on the in sequence delivery of the DTLS records and also the indication that the complete protected user message. \r\n\r\nIn cases where not all DTLS records of a protected user messages is delivered it is vital that the DTLS layer knows that and either delivers nothing (atomic operations) or indicates that only partial delivery have occurred if some parts of the user message has been decrypted and delivered. ",
+          "createdAt": "2021-02-19T16:58:18Z",
+          "updatedAt": "2021-02-19T16:58:18Z"
+        },
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sure, I agree.",
+          "createdAt": "2021-02-19T21:33:17Z",
+          "updatedAt": "2021-02-19T21:33:17Z"
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "MDU6SXNzdWU4MTIzNDI4MjA=",
+      "title": "main_secret",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/29",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://www.ietf.org/rfcdiff?url2=draft-ietf-tls-rfc8446bis-01\r\n\r\nRemoves \"master\" in TLS 1.2 and 1.3. This will very likey be the future terminology so we should probably use the term \"main secret\".",
+      "createdAt": "2021-02-19T20:57:19Z",
+      "updatedAt": "2021-02-19T20:57:19Z",
       "closedAt": null,
       "comments": []
     }
@@ -339,24 +865,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTc0ODI2NTc5",
       "title": "Proposal to fix issue #8 Replay Protection Clarification",
       "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/10",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gloinul",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "This is a proposal to address issue #8 ",
       "createdAt": "2021-02-17T10:57:40Z",
-      "updatedAt": "2021-02-17T12:12:26Z",
+      "updatedAt": "2021-02-19T12:00:11Z",
       "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
       "baseRefName": "main",
       "baseRefOid": "1b961d99c751dc61c5698523df90a3e42ab236df",
       "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
       "headRefName": "replay-protection-i8",
       "headRefOid": "9ce2b6e091bec55d15cf67435d9746486e3aedc0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-19T12:00:11Z",
+      "mergedAt": "2021-02-19T12:00:11Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "fdd5bd1d7f2a069a09a6dc2bdbe0fb2b9daca3a0"
+      },
       "comments": [],
       "reviews": [
         {
@@ -373,6 +901,206 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 18,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc2MTE3Njg3",
+      "title": "Get rid of parameter in INIT/INIT-ACK",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/18",
+      "state": "MERGED",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-02-19T01:58:35Z",
+      "updatedAt": "2021-02-19T12:00:30Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1b961d99c751dc61c5698523df90a3e42ab236df",
+      "headRepository": null,
+      "headRefName": "main",
+      "headRefOid": "6058201047720da3ae696d9e82b18745b02a8e35",
+      "closedAt": "2021-02-19T12:00:30Z",
+      "mergedAt": "2021-02-19T12:00:30Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "0b8b32782d141ff2791e8fd1d34884d7dcebb9f4"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 20,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc2MTIzMzg3",
+      "title": "Typos",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/20",
+      "state": "MERGED",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-02-19T02:17:21Z",
+      "updatedAt": "2021-02-19T12:00:52Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1b961d99c751dc61c5698523df90a3e42ab236df",
+      "headRepository": null,
+      "headRefName": "typos",
+      "headRefOid": "4410cc991ff95a24ec2bf11c0496f934c073da86",
+      "closedAt": "2021-02-19T12:00:52Z",
+      "mergedAt": "2021-02-19T12:00:52Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "6660720b6157fcd560259c77eafa44d370aff53b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0MTAyOTE4",
+          "commit": {
+            "abbreviatedOid": "4410cc9"
+          },
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "The typo part looks good. ",
+          "createdAt": "2021-02-19T11:30:45Z",
+          "updatedAt": "2021-02-19T11:30:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc2MTQxMzQw",
+      "title": "Security consideration on rekeying",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/21",
+      "state": "MERGED",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-02-19T03:16:39Z",
+      "updatedAt": "2021-02-19T12:01:08Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1b961d99c751dc61c5698523df90a3e42ab236df",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "Security-consideration-on-rekeying",
+      "headRefOid": "8730c3d9b6c0606d237b3031246fad83d37f09a2",
+      "closedAt": "2021-02-19T12:01:08Z",
+      "mergedAt": "2021-02-19T12:01:08Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "e23dba66749a674bfe88bcddf8693ec7f672a352"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0MDI0Njc4",
+          "commit": {
+            "abbreviatedOid": "ed199f4"
+          },
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-19T09:49:38Z",
+          "updatedAt": "2021-02-19T09:49:38Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "Renkeying -> Rekeying?",
+              "createdAt": "2021-02-19T09:49:38Z",
+              "updatedAt": "2021-02-19T10:45:54Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0MTAwNjQx",
+          "commit": {
+            "abbreviatedOid": "8730c3d"
+          },
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-02-19T11:27:32Z",
+          "updatedAt": "2021-02-19T11:27:32Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc2NDg2NjQ1",
+      "title": "Fix more typos",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/26",
+      "state": "MERGED",
+      "author": "tuexen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-02-19T14:14:56Z",
+      "updatedAt": "2021-02-19T15:52:58Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "e23dba66749a674bfe88bcddf8693ec7f672a352",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "tuexen-typos",
+      "headRefOid": "8ea7793e1813b45855eea0cb471fc5e488232484",
+      "closedAt": "2021-02-19T15:48:11Z",
+      "mergedAt": "2021-02-19T15:48:10Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "6bd74e9f657854df55076d4ad776b8557b9a6443"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0MzE2NTA4",
+          "commit": {
+            "abbreviatedOid": "8ea7793"
+          },
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "Sorry that some Swedish language conventions has been used. ",
+          "createdAt": "2021-02-19T15:48:04Z",
+          "updatedAt": "2021-02-19T15:48:04Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc2NzI2MDg2",
+      "title": "Remove the word \"master\"",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/30",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This aligns the terminology with https://www.ietf.org/rfcdiff?url2=draft-ietf-tls-rfc8446bis-01",
+      "createdAt": "2021-02-19T20:59:50Z",
+      "updatedAt": "2021-02-19T20:59:51Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "6bd74e9f657854df55076d4ad776b8557b9a6443",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "Remove-\"master\"-aligning-with-RFC8446bis",
+      "headRefOid": "5fadad4c4cd532ffb74e24ff7dfbafb855f35ef5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
