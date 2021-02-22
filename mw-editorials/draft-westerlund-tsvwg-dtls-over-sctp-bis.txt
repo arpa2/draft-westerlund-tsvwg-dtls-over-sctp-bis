@@ -223,6 +223,9 @@ Table of Contents
    *  Applies stricter requirements on always using DTLS for all user
       messages in the SCTP association.
 
+   *  Requires that SCTP-AUTH is applied to all SCTP Chunks that can be
+      authenticated.
+
 1.2.  Terminology
 
    This document uses the following terms:
@@ -413,6 +416,14 @@ Table of Contents
    association).  A DTLS connection MUST NOT span multiple SCTP
    associations.
 
+   As it is required to establish the DTLS connection at the beginning
+   of the SCTP association, either of the peers should never send any
+   SCTP user messages that are not protected by DTLS.  So the case that
+   an endpoint receives data that is not either DTLS messages on Strea 0
+   or protecetd user messages in the form of a sequence of DTLS Records
+   on any stream is a protocol violation.  The receiver MAY terminate
+   the SCTP association due to this protocol violation.
+
 4.3.  Payload Protocol Identifier Usage
 
    SCTP Payload Protocol Identifiers are assigned by IANA.  Application
@@ -592,11 +603,9 @@ Table of Contents
    When all the above options are present, the Association will start
    with support of DTLS/SCTP.  The set of options indicated are the
    DTLS/SCTP Mandatory Options.  No data transfer is permitted before
-   DTLS handshake is complete.  DATA chunks that are received before
-   DTLS handshake will be silently discarded.  Chunk bundling is
-   permitted according to [RFC4960].  The DTLS handshake will enable
-   authentication of both the peers and also have the declare their
-   support message size.
+   DTLS handshake is complete.  Chunk bundling is permitted according to
+   [RFC4960].  The DTLS handshake will enable authentication of both the
+   peers and also have the declare their support message size.
 
    The extension described in this document is given by the following
    message exchange.

@@ -11,22 +11,23 @@
 <meta content="Michael Tüxen" name="author">
 <meta content="
        This document describes a proposed update for the usage of the
-Datagram Transport Layer Security (DTLS) protocol to protect user
-messages sent over the Stream Control Transmission Protocol (SCTP). 
+   Datagram Transport Layer Security (DTLS) protocol to protect user
+   messages sent over the Stream Control Transmission Protocol (SCTP). 
        DTLS over SCTP provides mutual authentication, confidentiality,
-integrity protection, and replay protection for applications that use
-SCTP as their transport protocol and allows client/server applications
-to communicate in a way that is designed to give communications
-privacy and to prevent eavesdropping and detect tampering or message
-forgery. 
+   integrity protection, and replay protection for applications that
+   use SCTP as their transport protocol and allows client/server
+   applications to communicate in a way that is designed to give
+   communications privacy and to prevent eavesdropping and detect
+   tampering or message forgery. 
        Applications using DTLS over SCTP can use almost all transport
-features provided by SCTP and its extensions. This document intends to
-obsolete RFC 6083 and removes the 16 kB limitation on user message
-size by defining a secure user message fragmentation so that multiple
-DTLS records can be used to protect a single user message. It further
-updates the DTLS versions to use, as well as the HMAC algorithms for
-SCTP-AUTH, and simplifies the implementation by some stricter
-requirements on the establishment procedures. 
+   features provided by SCTP and its extensions. This document intends
+   to obsolete RFC 6083 and removes the 16 kB limitation on user
+   message size by defining a secure user message fragmentation so
+   that multiple DTLS records can be used to protect a single user
+   message. It further updates the DTLS versions to use, as well as
+   the HMAC algorithms for SCTP-AUTH, and simplifies the
+   implementation by some stricter requirements on the establishment
+   procedures. 
     " name="description">
 <meta content="xml2rfc 3.5.0" name="generator">
 <meta content="draft-westerlund-tsvwg-dtls-over-sctp-bis-latest" name="ietf.draft">
@@ -906,22 +907,23 @@ address div.right {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document describes a proposed update for the usage of the
-Datagram Transport Layer Security (DTLS) protocol to protect user
-messages sent over the Stream Control Transmission Protocol (SCTP).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+   Datagram Transport Layer Security (DTLS) protocol to protect user
+   messages sent over the Stream Control Transmission Protocol (SCTP).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <p id="section-abstract-2">DTLS over SCTP provides mutual authentication, confidentiality,
-integrity protection, and replay protection for applications that use
-SCTP as their transport protocol and allows client/server applications
-to communicate in a way that is designed to give communications
-privacy and to prevent eavesdropping and detect tampering or message
-forgery.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+   integrity protection, and replay protection for applications that
+   use SCTP as their transport protocol and allows client/server
+   applications to communicate in a way that is designed to give
+   communications privacy and to prevent eavesdropping and detect
+   tampering or message forgery.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 <p id="section-abstract-3">Applications using DTLS over SCTP can use almost all transport
-features provided by SCTP and its extensions. This document intends to
-obsolete RFC 6083 and removes the 16 kB limitation on user message
-size by defining a secure user message fragmentation so that multiple
-DTLS records can be used to protect a single user message. It further
-updates the DTLS versions to use, as well as the HMAC algorithms for
-SCTP-AUTH, and simplifies the implementation by some stricter
-requirements on the establishment procedures.<a href="#section-abstract-3" class="pilcrow">¶</a></p>
+   features provided by SCTP and its extensions. This document intends
+   to obsolete RFC 6083 and removes the 16 kB limitation on user
+   message size by defining a secure user message fragmentation so
+   that multiple DTLS records can be used to protect a single user
+   message. It further updates the DTLS versions to use, as well as
+   the HMAC algorithms for SCTP-AUTH, and simplifies the
+   implementation by some stricter requirements on the establishment
+   procedures.<a href="#section-abstract-3" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-discussion-venues">
@@ -981,168 +983,168 @@ requirements on the establishment procedures.<a href="#section-abstract-3" class
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.1">
+<nav class="toc"><ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.1">
             <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.1.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.1.2.1">
                 <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-overview" class="xref">Overview</a><a href="#section-toc.1-1.1.2.1.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.1.2.1.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.1.2.1.2.1">
                     <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="xref">1.1.1</a>.  <a href="#name-comparison-with-tls-for-sct" class="xref">Comparison with TLS for SCTP</a><a href="#section-toc.1-1.1.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="toc ulEmpty compact" id="section-toc.1-1.1.2.1.2.2">
+                  <li class="compact ulEmpty toc" id="section-toc.1-1.1.2.1.2.2">
                     <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="xref">1.1.2</a>.  <a href="#name-changes-from-rfc-6083" class="xref">Changes from RFC 6083</a><a href="#section-toc.1-1.1.2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.1.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.1.2.2">
                 <p id="section-toc.1-1.1.2.2.1"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-terminology" class="xref">Terminology</a><a href="#section-toc.1-1.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.1.2.3">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.1.2.3">
                 <p id="section-toc.1-1.1.2.3.1"><a href="#section-1.3" class="xref">1.3</a>.  <a href="#name-abbreviations" class="xref">Abbreviations</a><a href="#section-toc.1-1.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.2">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-conventions" class="xref">Conventions</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.3">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-dtls-considerations" class="xref">DTLS Considerations</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.3.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.3.2.1">
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-version-of-dtls" class="xref">Version of DTLS</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.3.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-cipher-suites" class="xref">Cipher Suites</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.3.2.3">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-message-sizes" class="xref">Message Sizes</a><a href="#section-toc.1-1.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.3.2.4">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.3.2.4">
                 <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="xref">3.4</a>.  <a href="#name-replay-protection" class="xref">Replay Protection</a><a href="#section-toc.1-1.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.3.2.5">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.3.2.5">
                 <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="xref">3.5</a>.  <a href="#name-path-mtu-discovery" class="xref">Path MTU Discovery</a><a href="#section-toc.1-1.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.3.2.6">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.3.2.6">
                 <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="xref">3.6</a>.  <a href="#name-retransmission-of-messages" class="xref">Retransmission of Messages</a><a href="#section-toc.1-1.3.2.6.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.4">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-sctp-considerations" class="xref">SCTP Considerations</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.4.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.4.2.1">
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-mapping-of-dtls-records" class="xref">Mapping of DTLS Records</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.2">
                 <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-dtls-connection-handling" class="xref">DTLS Connection Handling</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.3">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.3">
                 <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-payload-protocol-identifier" class="xref">Payload Protocol Identifier Usage</a><a href="#section-toc.1-1.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.4">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.4">
                 <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-stream-usage" class="xref">Stream Usage</a><a href="#section-toc.1-1.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.5">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.5">
                 <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="xref">4.5</a>.  <a href="#name-chunk-handling" class="xref">Chunk Handling</a><a href="#section-toc.1-1.4.2.5.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.6">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.6">
                 <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="xref">4.6</a>.  <a href="#name-sctp-auth-hash-function" class="xref">SCTP-AUTH Hash Function</a><a href="#section-toc.1-1.4.2.6.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.7">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.7">
                 <p id="section-toc.1-1.4.2.7.1"><a href="#section-4.7" class="xref">4.7</a>.  <a href="#name-renegotiation" class="xref">Renegotiation</a><a href="#section-toc.1-1.4.2.7.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.8">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.8">
                 <p id="section-toc.1-1.4.2.8.1"><a href="#section-4.8" class="xref">4.8</a>.  <a href="#name-dtls-epochs" class="xref">DTLS Epochs</a><a href="#section-toc.1-1.4.2.8.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.9">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.9">
                 <p id="section-toc.1-1.4.2.9.1"><a href="#section-4.9" class="xref">4.9</a>.  <a href="#name-handling-of-endpoint-pair-s" class="xref">Handling of Endpoint-Pair Shared Secrets</a><a href="#section-toc.1-1.4.2.9.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.10">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.10">
                 <p id="section-toc.1-1.4.2.10.1"><a href="#section-4.10" class="xref">4.10</a>. <a href="#name-shutdown" class="xref">Shutdown</a><a href="#section-toc.1-1.4.2.10.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.5">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-dtls-over-sctp-service" class="xref">DTLS over SCTP Service</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.5.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-adaptation-layer-indication" class="xref">Adaptation Layer Indication in INIT/INIT-ACK</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.5.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.5.2.2">
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-dtls-sctp-dtls_over_sctp_ma" class="xref">DTLS/SCTP "dtls_over_sctp_maximum_message_size" Extension</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.5.2.3">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-dtls-over-sctp-initializati" class="xref">DTLS over SCTP Initialization</a><a href="#section-toc.1-1.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.5.2.4">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.5.2.4">
                 <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="xref">5.4</a>.  <a href="#name-client-use-case" class="xref">Client Use Case</a><a href="#section-toc.1-1.5.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.5.2.5">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.5.2.5">
                 <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="xref">5.5</a>.  <a href="#name-server-use-case" class="xref">Server Use Case</a><a href="#section-toc.1-1.5.2.5.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.5.2.6">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.5.2.6">
                 <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="xref">5.6</a>.  <a href="#name-rfc-6083-fallback" class="xref">RFC 6083 Fallback</a><a href="#section-toc.1-1.5.2.6.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.6">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.6.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-tls-exporter-label" class="xref">TLS Exporter Label</a><a href="#section-toc.1-1.6.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.6.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.6.2.2">
                 <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-dtls-dtls_over_sctp_buffer_" class="xref">DTLS "dtls_over_sctp_buffer_size_limit" Extension</a><a href="#section-toc.1-1.6.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.6.2.3">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.6.2.3">
                 <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="xref">6.3</a>.  <a href="#name-sctp-parameter" class="xref">SCTP Parameter</a><a href="#section-toc.1-1.6.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.7">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.7.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.7.2.1">
                 <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="xref">7.1</a>.  <a href="#name-cryptographic-consideration" class="xref">Cryptographic Considerations</a><a href="#section-toc.1-1.7.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.7.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.7.2.2">
                 <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="xref">7.2</a>.  <a href="#name-downgrade-attacks" class="xref">Downgrade Attacks</a><a href="#section-toc.1-1.7.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.7.2.3">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.7.2.3">
                 <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="xref">7.3</a>.  <a href="#name-dtls-sctp-message-sizes" class="xref">DTLS/SCTP Message Sizes</a><a href="#section-toc.1-1.7.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.7.2.4">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.7.2.4">
                 <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="xref">7.4</a>.  <a href="#name-authentication-and-policy-d" class="xref">Authentication and Policy Decisions</a><a href="#section-toc.1-1.7.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.7.2.5">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.7.2.5">
                 <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="xref">7.5</a>.  <a href="#name-privacy-considerations" class="xref">Privacy Considerations</a><a href="#section-toc.1-1.7.2.5.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.7.2.6">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.7.2.6">
                 <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="xref">7.6</a>.  <a href="#name-pervasive-monitoring" class="xref">Pervasive Monitoring</a><a href="#section-toc.1-1.7.2.6.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.8">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-acknowledgments" class="xref">Acknowledgments</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.9">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.9.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.9.2.1">
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.9.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.9.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.9.2.2">
                 <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.9.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.10">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-motivation-for-changes" class="xref">Motivation for Changes</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.11">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.11">
             <p id="section-toc.1-1.11.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
@@ -1160,22 +1162,22 @@ requirements on the establishment procedures.<a href="#section-abstract-3" class
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
         </h3>
 <p id="section-1.1-1">This document describes the usage of the Datagram Transport Layer
-Security (DTLS) protocol, as defined in <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span>, over
-the Stream Control Transmission Protocol (SCTP), as defined in
-<span>[<a href="#RFC4960" class="xref">RFC4960</a>]</span> with Authenticated Chunks for SCTP (SCTP-AUTH)
-<span>[<a href="#RFC4895" class="xref">RFC4895</a>]</span>.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+   Security (DTLS) protocol, as defined in <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span>,
+   over the Stream Control Transmission Protocol (SCTP), as defined in
+   <span>[<a href="#RFC4960" class="xref">RFC4960</a>]</span> with Authenticated Chunks for SCTP (SCTP-AUTH)
+   <span>[<a href="#RFC4895" class="xref">RFC4895</a>]</span>.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <p id="section-1.1-2">This specification provides mutual authentication of endpoints,
-confidentiality, integrity protection, and replay protection of user
-messages for applications that use SCTP as their transport protocol.
-Thus it allows client/server applications to communicate in a way that
-is designed to give communications privacy and to prevent
-eavesdropping and detect tampering or message forgery. DTLS/SCTP uses
-DTLS for mutual authentication, key exchange with perfect forward
-secrecy for SCTP-AUTH, and confidentiality of user messages. DTLS/SCTP
-use SCTP and SCTP-AUTH for integrity protection and replay protection
-of user messages.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+   confidentiality, integrity protection, and replay protection of
+   user messages for applications that use SCTP as their transport
+   protocol.  Thus it allows client/server applications to communicate
+   in a way that is designed to give communications privacy and to
+   prevent eavesdropping and detect tampering or message
+   forgery. DTLS/SCTP uses DTLS for mutual authentication, key
+   exchange with perfect forward secrecy for SCTP-AUTH, and
+   confidentiality of user messages. DTLS/SCTP use SCTP and SCTP-AUTH
+   for integrity protection and replay protection of user messages.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 <p id="section-1.1-3">Applications using DTLS over SCTP can use almost all transport
-features provided by SCTP and its extensions. DTLS/SCTP supports:<a href="#section-1.1-3" class="pilcrow">¶</a></p>
+   features provided by SCTP and its extensions. DTLS/SCTP supports:<a href="#section-1.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1.1-4.1">preservation of message boundaries.<a href="#section-1.1-4.1" class="pilcrow">¶</a>
 </li>
@@ -1192,11 +1194,12 @@ features provided by SCTP and its extensions. DTLS/SCTP supports:<a href="#secti
 </li>
         </ul>
 <p id="section-1.1-5">The method described in this document requires that the SCTP
-implementation supports the optional feature of fragmentation of SCTP
-user messages as defined in <span>[<a href="#RFC4960" class="xref">RFC4960</a>]</span>. To efficiently implement and
-support larger user messages it is also recommended that I-DATA chunks
-as defined in <span>[<a href="#RFC8260" class="xref">RFC8260</a>]</span> as well as an SCTP API that supports partial
-user message delivery as discussed in <span>[<a href="#RFC6458" class="xref">RFC6458</a>]</span>.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
+   implementation supports the optional feature of fragmentation of
+   SCTP user messages as defined in <span>[<a href="#RFC4960" class="xref">RFC4960</a>]</span>. To efficiently
+   implement and support larger user messages it is also recommended
+   that I-DATA chunks as defined in <span>[<a href="#RFC8260" class="xref">RFC8260</a>]</span> as well as an SCTP API
+   that supports partial user message delivery as discussed in
+   <span>[<a href="#RFC6458" class="xref">RFC6458</a>]</span>.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
 <div id="comparison-with-tls-for-sctp">
 <section id="section-1.1.1">
           <h4 id="name-comparison-with-tls-for-sct">
@@ -1256,6 +1259,9 @@ if larger usage messages are intended to be used.<a href="#section-1.1.2-4.6" cl
 </li>
             <li class="normal" id="section-1.1.2-4.7">Applies stricter requirements on always using DTLS for all user
 messages in the SCTP association.<a href="#section-1.1.2-4.7" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-1.1.2-4.8">Requires that SCTP-AUTH is applied to all SCTP Chunks that can be
+authenticated.<a href="#section-1.1.2-4.8" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -1489,6 +1495,13 @@ identified by a stream identifier.<a href="#section-1.2-3" class="pilcrow">¶</a
    terminated, (i.e. there's only one DTLS connection within one
    association).  A DTLS connection MUST NOT span multiple SCTP
    associations.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">As it is required to establish the DTLS connection at the beginning
+   of the SCTP association, either of the peers should never send any
+   SCTP user messages that are not protected by DTLS. So the case that
+   an endpoint receives data that is not either DTLS messages on Strea
+   0 or protecetd user messages in the form of a sequence of DTLS
+   Records on any stream is a protocol violation. The receiver MAY
+   terminate the SCTP association due to this protocol violation.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="payload-protocol-identifier-usage">
@@ -1706,11 +1719,10 @@ identified by a stream identifier.<a href="#section-1.2-3" class="pilcrow">¶</a
 <p id="section-5.3-6">When all the above options are present, the Association will start
    with support of DTLS/SCTP.  The set of options indicated are the
    DTLS/SCTP Mandatory Options.  No data transfer is permitted before
-   DTLS handshake is complete.  DATA chunks that are received before
-   DTLS handshake will be silently discarded.  Chunk bundling is
-   permitted according to <span>[<a href="#RFC4960" class="xref">RFC4960</a>]</span>. The DTLS handshake will enable
-   authentication of both the peers and also have the declare their
-   support message size.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+   DTLS handshake is complete. Chunk bundling is permitted according
+   to <span>[<a href="#RFC4960" class="xref">RFC4960</a>]</span>. The DTLS handshake will enable authentication of
+   both the peers and also have the declare their support message
+   size.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
 <p id="section-5.3-7">The extension described in this document is given by the following
    message exchange.<a href="#section-5.3-7" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-5.3-8">
@@ -1761,39 +1773,40 @@ identified by a stream identifier.<a href="#section-1.2-3" class="pilcrow">¶</a
         <h3 id="name-rfc-6083-fallback">
 <a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-rfc-6083-fallback" class="section-name selfRef">RFC 6083 Fallback</a>
         </h3>
-<p id="section-5.6-1">This section discusses how an endpoint supporting this specification
-can fallback to follow the DTLS/SCTP behavior in RFC 6083. It is
-recommended to define a setting that represents the policy to allow
-fallback or not. However, the possibility to use fallback is based on
-the ULP can operate using user messages that are no longer than 16383
-bytes and where the security issues can be mitigated or considerd
-acceptable. Fallback is NOT RECOMMEND to be enabled as it enables
-downgrade to weaker algorithms and versions of DTLS.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+<p id="section-5.6-1">This section discusses how an endpoint supporting this
+   specification can fallback to follow the DTLS/SCTP behavior in RFC
+   6083. It is recommended to define a setting that represents the
+   policy to allow fallback or not. However, the possibility to use
+   fallback is based on the ULP can operate using user messages that
+   are no longer than 16383 bytes and where the security issues can be
+   mitigated or considerd acceptable. Fallback is NOT RECOMMEND to be
+   enabled as it enables downgrade to weaker algorithms and versions
+   of DTLS.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
 <p id="section-5.6-2">A SCTP client that receives an INIT-ACK that is not compliant
-according this specification may in certain cases potentially perform
-an fallback to RFC 6083 behavior. The first case is when the SCTP
-client receives an INIT-ACK doesn't contain the
-SCTP-Adaptation-Indication parameter with the DTLS/SCTP adaptation
-layer codepoint but do include the SCTP-AUTH parameters on a server
-that are expected to provide services using DTLS. The second case is
-when the INIT-ACK do contain the SCTP-Adaptation-Indication parameter
-with the correct code point, however the HMAC-ALGO or the Chunks
-parameters values are such that do not fullfil the requirement of this
-specification but do meet the requirements of RFC 6083. In either of
-these cases the client could attempt DTLS per RFC 6083 as
-fallback. However, the fallback attempt should only be performed if
-policy says that is acceptable.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
-<p id="section-5.6-3">If fallback is allowed it is possible that the client will send plain
-text user messages prior to DTLS handshake as it is allowed per RFC
-6083.  So that needs to be part of the consideration for a policy
-allowing fallback. When performing the the DTLS handshake, the server
-is required accepting that lack of the TLS extension
-"dtls_over_sctp_maximum_message_size" and can't treat it as fatal
-error. In case the "dtls_over_sctp_maximum_message_size" TLS extension
-is present in the handshake the server SHALL continue the handshake
-including the extension with its value also, and from that point
-follow this specification. In case the TLS option is missing RFC 6083
-applies.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
+   according this specification may in certain cases potentially
+   perform an fallback to RFC 6083 behavior. The first case is when
+   the SCTP client receives an INIT-ACK doesn't contain the
+   SCTP-Adaptation-Indication parameter with the DTLS/SCTP adaptation
+   layer codepoint but do include the SCTP-AUTH parameters on a server
+   that are expected to provide services using DTLS. The second case
+   is when the INIT-ACK do contain the SCTP-Adaptation-Indication
+   parameter with the correct code point, however the HMAC-ALGO or the
+   Chunks parameters values are such that do not fullfil the
+   requirement of this specification but do meet the requirements of
+   RFC 6083. In either of these cases the client could attempt DTLS
+   per RFC 6083 as fallback. However, the fallback attempt should only
+   be performed if policy says that is acceptable.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
+<p id="section-5.6-3">If fallback is allowed it is possible that the client will send
+   plain text user messages prior to DTLS handshake as it is allowed
+   per RFC 6083.  So that needs to be part of the consideration for a
+   policy allowing fallback. When performing the the DTLS handshake,
+   the server is required accepting that lack of the TLS extension
+   "dtls_over_sctp_maximum_message_size" and can't treat it as fatal
+   error. In case the "dtls_over_sctp_maximum_message_size" TLS
+   extension is present in the handshake the server SHALL continue the
+   handshake including the extension with its value also, and from
+   that point follow this specification. In case the TLS option is
+   missing RFC 6083 applies.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1809,8 +1822,8 @@ applies.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-tls-exporter-label" class="section-name selfRef">TLS Exporter Label</a>
         </h3>
 <p id="section-6.1-1">RFC 6083 defined a TLS Exporter Label registry as described in
-<span>[<a href="#RFC5705" class="xref">RFC5705</a>]</span>. IANA is requested to update the reference for the label
-"EXPORTER_DTLS_OVER_SCTP" to this specification.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+   <span>[<a href="#RFC5705" class="xref">RFC5705</a>]</span>. IANA is requested to update the reference for the
+   label "EXPORTER_DTLS_OVER_SCTP" to this specification.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="dtls-dtlsoversctpbuffersizelimit-extension">
@@ -1819,15 +1832,15 @@ applies.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-dtls-dtls_over_sctp_buffer_" class="section-name selfRef">DTLS "dtls_over_sctp_buffer_size_limit" Extension</a>
         </h3>
 <p id="section-6.2-1">This document registers the "dtls_over_sctp_maximum_message_size"
-extension in the TLS "ExtensionType Values" registry established in
-<span>[<a href="#RFC5246" class="xref">RFC5246</a>]</span>.  The "dtls_over_sctp_maximum_message_size" extension has
-been assigned a code point of TBD. This entry [[will be|is]]
-marked as recommended (<span>[<a href="#RFC8447" class="xref">RFC8447</a>]</span> and marked as "Encrypted" in (D)TLS
-1.3 <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span>. The IANA registry <span>[<a href="#RFC8447" class="xref">RFC8447</a>]</span> [[will
-list|lists]] this extension as "Recommended" (i.e., "Y") and
-indicates that it may appear in the ClientHello (CH) or
-EncryptedExtensions (EE) messages in (D)TLS 1.3
-<span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+   extension in the TLS "ExtensionType Values" registry established in
+   <span>[<a href="#RFC5246" class="xref">RFC5246</a>]</span>.  The "dtls_over_sctp_maximum_message_size" extension
+   has been assigned a code point of TBD. This entry [[will
+   be|is]] marked as recommended (<span>[<a href="#RFC8447" class="xref">RFC8447</a>]</span> and marked as
+   "Encrypted" in (D)TLS 1.3 <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span>. The IANA
+   registry <span>[<a href="#RFC8447" class="xref">RFC8447</a>]</span> [[will list|lists]] this extension as
+   "Recommended" (i.e., "Y") and indicates that it may appear in the
+   ClientHello (CH) or EncryptedExtensions (EE) messages in (D)TLS 1.3
+   <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sctp-parameter">
@@ -1853,52 +1866,55 @@ EncryptedExtensions (EE) messages in (D)TLS 1.3
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-cryptographic-consideration" class="section-name selfRef">Cryptographic Considerations</a>
         </h3>
 <p id="section-7.1-1">Over the years, there have been several serious attacks on earlier
-   versions of Transport Layer Security (TLS), including attacks on its
-   most commonly used ciphers and modes of operation.  <span>[<a href="#RFC7457" class="xref">RFC7457</a>]</span>
-   summarizes the attacks that were known at the time of publishing and
-   BCP 195 <span>[<a href="#RFC7525" class="xref">RFC7525</a>]</span> provides recommendations for improving the security
-   of deployed services that use TLS.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+   versions of Transport Layer Security (TLS), including attacks on
+   its most commonly used ciphers and modes of operation.  <span>[<a href="#RFC7457" class="xref">RFC7457</a>]</span>
+   summarizes the attacks that were known at the time of publishing
+   and BCP 195 <span>[<a href="#RFC7525" class="xref">RFC7525</a>]</span> provides recommendations for improving the
+   security of deployed services that use TLS.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">When DTLS/SCTP is used with DTLS 1.2 <span>[<a href="#RFC6347" class="xref">RFC6347</a>]</span>, DTLS 1.2 MUST be
    configured to disable options known to provide insufficient
    security. HTTP/2 <span>[<a href="#RFC7540" class="xref">RFC7540</a>]</span> gives good minimum requirements based
    on the attacks that where publicly known in 2015. DTLS 1.3
    <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span> only define strong algorithms without major
-   weaknesses at the time of publication. Many of the TLS registries have
-   a "Recommended" column. Parameters not marked as "Y" are NOT RECOMMENDED
-   to support.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+   weaknesses at the time of publication. Many of the TLS registries
+   have a "Recommended" column. Parameters not marked as "Y" are NOT
+   RECOMMENDED to support.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.1-3">DTLS 1.3 requires rekeying before algorithm specific AEAD limits
    have been reached. The AEAD limits equations are equally valid for
-   DTLS 1.2 and SHOULD be followed for DTLS/SCTP, but are not mandated by
-   the DTLS 1.2 specification. HMAC-SHA-256 as used in SCTP-AUTH has a very
-   large tag length and very good integrity properties. The SCTP-AUTH
-   key can be used until the DTLS handshake is re-run at which point a
-   new SCTP-AUTH key is derived using the TLS-Exporter.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+   DTLS 1.2 and SHOULD be followed for DTLS/SCTP, but are not mandated
+   by the DTLS 1.2 specification. HMAC-SHA-256 as used in SCTP-AUTH
+   has a very large tag length and very good integrity properties. The
+   SCTP-AUTH key can be used until the DTLS handshake is re-run at
+   which point a new SCTP-AUTH key is derived using the TLS-Exporter.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
 <p id="section-7.1-4">DTLS/SCTP is in many deployments replacing IPsec. For IPsec, NIST
    (US), BSI (Germany), and ANSSI (France) recommends very frequent
    re-run of Diffie-Hellman to provide Perfect Forward Secrecy. ANSSI
    writes "It is recommended to force the periodic renewal of the
    keys, e.g. every hour and every 100 GB of data, in order to limit
    the impact of a key compromise." <span>[<a href="#ANSSI-DAT-NT-003" class="xref">ANSSI-DAT-NT-003</a>]</span>.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
-<p id="section-7.1-5">For many DTLS/SCTP deployments the DTLS connections are expected
-   to have very long lifetimes of months or even years. For connections
-   with such long lifetimes there is a need to frequently re-authenticate
-   both client and server.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
-<p id="section-7.1-6">When using DTLS 1.2 <span>[<a href="#RFC6347" class="xref">RFC6347</a>]</span>, AEAD limits, frequant re-authentication
-   and frequent re-run of Diffie-Hellman can be achieved with frequent renegotiation,
-   see TLS 1.2 <span>[<a href="#RFC5246" class="xref">RFC5246</a>]</span>. When renegotiation is used both clients and servers
-   MUST use the renegotiation_info extension <span>[<a href="#RFC5746" class="xref">RFC5746</a>]</span> and MUST follow the
+<p id="section-7.1-5">For many DTLS/SCTP deployments the DTLS connections are expected to
+   have very long lifetimes of months or even years. For connections
+   with such long lifetimes there is a need to frequently
+   re-authenticate both client and server.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
+<p id="section-7.1-6">When using DTLS 1.2 <span>[<a href="#RFC6347" class="xref">RFC6347</a>]</span>, AEAD limits, frequant
+   re-authentication and frequent re-run of Diffie-Hellman can be
+   achieved with frequent renegotiation, see TLS 1.2 <span>[<a href="#RFC5246" class="xref">RFC5246</a>]</span>. When
+   renegotiation is used both clients and servers MUST use the
+   renegotiation_info extension <span>[<a href="#RFC5746" class="xref">RFC5746</a>]</span> and MUST follow the
    renegotiation guidelines in BCP 195 <span>[<a href="#RFC7525" class="xref">RFC7525</a>]</span>.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
-<p id="section-7.1-7">In DTLS 1.3 renegotiation has been removed from DTLS 1.3 and partly replaced
-   with Post-Handshake KeyUpdate. When using DTLS 1.3 <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span>,
-   AEAD limits and frequent rekeying can be achieved by sending frequent
-   Post-Handshake KeyUpdate messages. Symmetric rekeying gives less protection
-   against key leakage than re-running Diffie-Hellman.
-   After leakage of application_traffic_secret_N, a passive attacker can
-   passively eavesdrop on all future application data sent on the connection
-   including application data encrypted with application_traffic_secret_N+1,
-   application_traffic_secret_N+2, etc. The is no way to do Post-Handshake
-   server authentication or Ephemeral Diffie-Hellman inside a DTLS 1.3
-   connection. Note that KeyUpdate does not update the exporter_secret.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
+<p id="section-7.1-7">In DTLS 1.3 renegotiation has been removed from DTLS 1.3 and partly
+   replaced with Post-Handshake KeyUpdate. When using DTLS 1.3
+   <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span>, AEAD limits and frequent rekeying can be
+   achieved by sending frequent Post-Handshake KeyUpdate
+   messages. Symmetric rekeying gives less protection against key
+   leakage than re-running Diffie-Hellman.  After leakage of
+   application_traffic_secret_N, a passive attacker can passively
+   eavesdrop on all future application data sent on the connection
+   including application data encrypted with
+   application_traffic_secret_N+1, application_traffic_secret_N+2,
+   etc. The is no way to do Post-Handshake server authentication or
+   Ephemeral Diffie-Hellman inside a DTLS 1.3 connection. Note that
+   KeyUpdate does not update the exporter_secret.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="downgrade-attacks">
