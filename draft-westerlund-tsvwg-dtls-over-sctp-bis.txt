@@ -601,14 +601,14 @@ Table of Contents
    The extension described in this document is given by the following
    message exchange.
 
-    --- INIT[RANDOM; CHUNKS; HMAC-ALGO; ADAPTATION-LAYER-INDICATION] --->
-    <- INIT-ACK[RANDOM; CHUNKS; HMAC-ALGO; ADAPTATION-LAYER-INDICATION] -
-    ---------------------------- COOKIE-ECHO --------------------------->
-    <---------------------------- COOKIE-ACK ----------------------------
-    -------------------- AUTH; DATA[DTLS Handshake] -------------------->
-                                ...
-                                ...
-    <------------------- AUTH; DATA[DTLS Handshake] ---------------------
+      --- INIT[RANDOM; CHUNKS; HMAC-ALGO; ADAPTATION-LAYER-IND] --->
+      <- INIT-ACK[RANDOM; CHUNKS; HMAC-ALGO; ADAPTATION-LAYER-IND] -
+      ------------------------ COOKIE-ECHO ------------------------>
+      <------------------------ COOKIE-ACK -------------------------
+      ---------------- AUTH; DATA[DTLS Handshake] ----------------->
+                                  ...
+                                  ...
+      <--------------- AUTH; DATA[DTLS Handshake] ------------------
 
 5.4.  Client Use Case
 
