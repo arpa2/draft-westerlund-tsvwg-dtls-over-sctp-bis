@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-21T00:36:58.743615+00:00",
+  "timestamp": "2021-02-23T00:35:41.512660+00:00",
   "repo": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
   "labels": [
     {
@@ -221,7 +221,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-02-18T23:00:25Z",
-      "updatedAt": "2021-02-19T15:16:48Z",
+      "updatedAt": "2021-02-22T09:41:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -258,13 +258,27 @@
           "body": "> I think this comes down to how strict the DTLS stack will be with epochs for individual records close to the change of keys. I think we really don't want epoch changes between DTLS records within a protected user message. So the sender would need to complete the protection operation of user messages being protected, then perform the key change, then it can process new messages. Which from a sender perspective introduce some delay but not horribly much.\r\n> \r\n> 1. Indicated need to rekey, or renegotiation message received.\r\n> 2. Lock for accepting new user messages\r\n> 3. Empty sending queue, i.e. all data delivered to SCTP.\r\n> 4. Perform rekeying (may include message exchange with peer)\r\n> 5. Unlock for new messages.\r\n> \r\n> I think the receiver side is much harder if one can't retrieve the previous key for a short duration until one have ensured that each individual protected user message protected by the old key have been processed. We have to take into account that user messages on different streams may be down prioritized or subject to packet losses require retransmission.\r\n\r\nAs I said, we need to drain the sender side (which is ensuring nothing is buffered anymore in the SCTP layer; when using the socket API, this is waiting for the sender dry event). Then send the new message. On the receiver side when getting this new message, buffer it, read all other messages from SCTP, and finally process it. This way we can make sure all oder messages are processed.\r\n\r\nBTW: the sender dry event was defined for exactly this use...",
           "createdAt": "2021-02-19T15:15:46Z",
           "updatedAt": "2021-02-19T15:16:48Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "Okay, I think we need to investigate if we have two modes of operation here. We have the guaranteed to work, which is to drain the queue, but can cause impact on the upper layer protocol as we might introduce some delay when messages are queue while performing the drain operation. The second one is to know that the peer supports processing the previous epoch for a while, so that one can just switch key on the next user message one starts sending. \r\n\r\nBoth of these would still have issues issues with very long user messages. So I think we need more thinking on this issues. ",
+          "createdAt": "2021-02-22T09:40:50Z",
+          "updatedAt": "2021-02-22T09:40:50Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "Issue #25 is related to this discussion. ",
+          "createdAt": "2021-02-22T09:41:51Z",
+          "updatedAt": "2021-02-22T09:41:51Z"
         }
       ]
     },
     {
       "number": 15,
       "id": "MDU6SXNzdWU4MTE1NDc0NDE=",
-      "title": "Avoid DTLS-Supported option",
+      "title": "IANA Section needs to be completed for Adaptation Layer Indication",
       "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/15",
       "state": "OPEN",
       "author": "tuexen",
@@ -273,7 +287,7 @@
       "labels": [],
       "body": "Use an adaptation layer indication",
       "createdAt": "2021-02-18T23:16:09Z",
-      "updatedAt": "2021-02-19T15:21:54Z",
+      "updatedAt": "2021-02-22T16:29:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -311,16 +325,24 @@
       "labels": [],
       "body": "1. Only SHA-1 is mandatory to implement.\r\n2. SHA-1 can't be disabled via the socket API for the algorithm requested to be used by the peer.\r\n3. The AUTH negotiation relies on an acceptable mandatory to implement algorithm.\r\n4. There is no socket option to query which algorithm is used to send AUTH chunks.\r\n5. What about SHA-384 and SHA-512?\r\n\r\n1.-3. could be addressed by requiring that SCTP AUTH used SHA-256 instead of SHA-1 as mandatory to implement. 4. Can easily be addressed by adding another socket option. It would be nice to address 5., but that is not necessary.\r\n",
       "createdAt": "2021-02-19T00:54:54Z",
-      "updatedAt": "2021-02-19T00:54:54Z",
+      "updatedAt": "2021-02-22T10:17:47Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "5. Might make sense to register some of SHA-384, SHA-512, SHAKE128, SHAKE256, but not required for RFC6083bis. SHA-384 is required for compliance with US CNSA suite. ",
+          "createdAt": "2021-02-22T10:17:47Z",
+          "updatedAt": "2021-02-22T10:17:47Z"
+        }
+      ]
     },
     {
       "number": 17,
       "id": "MDU6SXNzdWU4MTE2MDU1MTk=",
       "title": "Fallback?",
       "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/17",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tuexen",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -329,8 +351,8 @@
       "labels": [],
       "body": "```\r\nIf the peer replies with an INIT-ACK not containing all DTLS/SCTP\r\nMandatory Options, the Client can decide to keep on working with\r\nRFC 6083 fallaback, plain data only, or to ABORT the association.\r\n```\r\nHow does this work? If the `RANDOM`, `CHUNKS`, or `HMAC-ALGO` parameter is missing, RFC 6083 does not work. So the only possibility is that `ADAPTATION-LAYER-INDICATION` is\r\nmissing or only SHA-1 is offered. That would mean RFC 6083 is used in combination with DTLS 1.2 or DTLS 1.3. I would vote for ABORTing. In the other cases, aren't we providing a way for downgrade attacks (SHA-256 -> SHA-1)? ",
       "createdAt": "2021-02-19T01:27:25Z",
-      "updatedAt": "2021-02-19T15:35:43Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-22T15:58:46Z",
+      "closedAt": "2021-02-22T15:58:46Z",
       "comments": [
         {
           "author": "gloinul",
@@ -338,6 +360,13 @@
           "body": "So, I  would note that the first section discuss the risks of fallback and recommend against it and requiring an explicit policy setting to enable it. Yes, it implies risking downgrade. \r\n\r\nThis section discusses how an endpoint supporting this specification can fallback to follow the DTLS/SCTP behavior in RFC 6083. It is recommended to define a setting that represents the policy to allow fallback or not. However, the possibility to use fallback is based on the ULP can operate using user messages that are no longer than 16383 bytes. Fallback is NOT RECOMMEND to be enabled as it enables downgrade to weaker algorithms and versions of DTLS.\r\n\r\nHowever, there are likely some transition cases that are going to need this. So doing RFC6083 with DTLS 1.2 or 1.3 is clearly possible. But the text do need a bit of update due to the change. ",
           "createdAt": "2021-02-19T15:35:43Z",
           "updatedAt": "2021-02-19T15:35:43Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "Simplified the text to be more correct. I think the high level is correct now. ",
+          "createdAt": "2021-02-22T15:58:46Z",
+          "updatedAt": "2021-02-22T15:58:46Z"
         }
       ]
     },
@@ -346,15 +375,15 @@
       "id": "MDU6SXNzdWU4MTE2MjMxMDg=",
       "title": "Usage of SHA-1 in RFC 6083",
       "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/19",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tuexen",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Why is\r\n```\r\nFor an RFC 6083 client it is likely that the preferred HMAC-ALGO indicates SHA-1.\r\n```\r\ntrue? RFC 6083 does not make a statement...",
       "createdAt": "2021-02-19T02:15:31Z",
-      "updatedAt": "2021-02-19T18:23:24Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-22T15:57:48Z",
+      "closedAt": "2021-02-22T15:57:48Z",
       "comments": [
         {
           "author": "gloinul",
@@ -369,6 +398,20 @@
           "body": "You are correct, that SHA-1 is the only mandatory to implement algorithm, but SHA-256 is also defined. FreeBSD supports both and prefers SHA-256. So when using only FreeBSD machines with RFC 6083, SHA-256 will be used. Linux only implements SHA-1. So if a FreeBSD machine talks to a Linux machine, SHA-1 will be used. There is no statement in RFC 6083 or RFC 4895 that SHA-1 is preferred. The point is: RFC 6083 make no statement and leaves the choice to the SCTP stack.",
           "createdAt": "2021-02-19T18:23:24Z",
           "updatedAt": "2021-02-19T18:23:24Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "Understand then lets change this sentence.",
+          "createdAt": "2021-02-22T09:19:37Z",
+          "updatedAt": "2021-02-22T09:19:37Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "PR merged that addresses this issue.",
+          "createdAt": "2021-02-22T15:57:48Z",
+          "updatedAt": "2021-02-22T15:57:48Z"
         }
       ]
     },
@@ -505,15 +548,15 @@
       "id": "MDU6SXNzdWU4MTIwOTMwNzY=",
       "title": "Strange sentence",
       "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/27",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tuexen",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "```\r\nDATA chunks that are received before DTLS handshake will be silently discarded.\r\n```\r\nNeeds to be changed.",
       "createdAt": "2021-02-19T15:01:01Z",
-      "updatedAt": "2021-02-19T15:52:17Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-22T16:27:57Z",
+      "closedAt": "2021-02-22T16:27:57Z",
       "comments": [
         {
           "author": "gloinul",
@@ -528,6 +571,20 @@
           "body": "How do you handle a starttls like setup used for example in [RFC 3788](https://tools.ietf.org/html/rfc3788)? I think the point is that once an SCTP association is handled by an DTLS implementation, the DTLS implementation should terminate the SCTP association if it can't parse the record.",
           "createdAt": "2021-02-19T15:52:17Z",
           "updatedAt": "2021-02-19T15:52:17Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "I will review RFC 3788. From a layering perspective, I do agree that it is DTLS that needs to terminate the SCTP association. So maybe the way forward here is to state that once the DTLS over SCTP adapation layer interaction have gone both ways, we can mandate that all SCPT user messages will pass the DTLS layer, and thus it needs to be either DTLS messages (one stream 0) or protected user messages in DTLS records. If the DTLS stack receives anything else it can terminate the association. \r\n",
+          "createdAt": "2021-02-22T09:18:46Z",
+          "updatedAt": "2021-02-22T09:18:46Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "Closing this issue after having created #35 and #37 to address two remaining aspects of the changes done in the PR #36.",
+          "createdAt": "2021-02-22T16:27:56Z",
+          "updatedAt": "2021-02-22T16:27:56Z"
         }
       ]
     },
@@ -581,16 +638,96 @@
       "id": "MDU6SXNzdWU4MTIzNDI4MjA=",
       "title": "main_secret",
       "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/29",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "https://www.ietf.org/rfcdiff?url2=draft-ietf-tls-rfc8446bis-01\r\n\r\nRemoves \"master\" in TLS 1.2 and 1.3. This will very likey be the future terminology so we should probably use the term \"main secret\".",
       "createdAt": "2021-02-19T20:57:19Z",
-      "updatedAt": "2021-02-19T20:57:19Z",
+      "updatedAt": "2021-02-22T09:55:53Z",
+      "closedAt": "2021-02-22T09:55:53Z",
+      "comments": []
+    },
+    {
+      "number": 31,
+      "id": "MDU6SXNzdWU4MTI4OTE2NDY=",
+      "title": "Only client Post-Handshake authentication is specified for DTLS 1.3",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/31",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Post-Handshake frequent client authentication is possible, just like in DTLS 1.2, but Post-Handshake server authentication is not possible.\r\n\r\n",
+      "createdAt": "2021-02-21T16:20:51Z",
+      "updatedAt": "2021-02-21T16:20:51Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 35,
+      "id": "MDU6SXNzdWU4MTM2MzcxNjU=",
+      "title": "Support for STARTTLS",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/35",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "So part of the discussion in #27 brought up the case of STARTTLS. I think that needs more consideration as due to even RFC 6083 requirement to have SCTP-AUTH, one can't move from a plain SCTP association to one with DTLS. Instead one actually need to create an association with the intent to use DTLS. So are there any point in attempting to support STARTTLS like for services that use TLS/TCP where it works. ",
+      "createdAt": "2021-02-22T16:05:33Z",
+      "updatedAt": "2021-02-22T16:43:31Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I only know about [RFC 3788](https://tools.ietf.org/html/rfc3788), which requires setting up the SCTP association appropriately, then exchanges the START-TLS and START-TLS-ACK message in the clear and then do TLS. [RFC 6083](https://tools.ietf.org/html/rfc6083) did not exist at that time.\r\n\r\nThe reason [RFC 3788](https://tools.ietf.org/html/rfc3788) was written is that there were some SIGTRAN specifications already published and they only specified the unsecured protocol. We requested separate port numbers for the protocols over TLS, but IANA declined that. So we had to do the START-TLS dance.\r\n\r\nTo be honest, in my limited testing I have done for a German mobile operator, I have never seen SIGTRAN over TLS... So I don't have a problem with not supporting START-TLS, we just need to be clear about it.",
+          "createdAt": "2021-02-22T16:43:31Z",
+          "updatedAt": "2021-02-22T16:43:31Z"
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "id": "MDU6SXNzdWU4MTM2NTU4MDI=",
+      "title": "Reaction to plain text prior or during DTLS connection",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/37",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "So currently any plain text prior or during a DTLS connection is considered a protocol violation. The reaction to this protocol violation is that it is allowed to do a SCTP association termination (ABORT). This issue is to track two aspect of this, while a related issue is #35 that impacts if plain text occur. But assuming that it can't we should clarify two things.\r\n\r\n1. Is MAY the right level or should this be RECOMMENDED or MUST?\r\n2. Should there be a particular error for this being sent back to peer?\r\n\r\n",
+      "createdAt": "2021-02-22T16:27:10Z",
+      "updatedAt": "2021-02-22T16:27:10Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 38,
+      "id": "MDU6SXNzdWU4MTM3MTQwMDI=",
+      "title": "The maximum message size parameter",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/issues/38",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "This document defines a maximum message size SCTP parameter to allow peers to indicate some limitations in the receiver implementation. Currently this is defined in a DTLS/SCTP specific way. However, it appears that this could be a parameter that could be generalized and thus possible one should work to ensure that the parameter is not specific to DTLS/SCTP and instead can be used by other usages to indicate limitations. \r\n\r\nLet us discuss if it would make sense to generalize this, or keep it DTLS/SCTP specific. ",
+      "createdAt": "2021-02-22T17:38:21Z",
+      "updatedAt": "2021-02-22T19:43:29Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tuexen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "What kind of use case do you have in mind? Limiting the record size could be done using [RFC 8449](https://tools.ietf.org/html/rfc8449). So isn't the suggested extension useful for transport protocols, which are message oriented and support large messages using multiple records. Right now I don't see any, which would carry DTLS.",
+          "createdAt": "2021-02-22T19:43:29Z",
+          "updatedAt": "2021-02-22T19:43:29Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -1081,24 +1218,154 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTc2NzI2MDg2",
       "title": "Remove the word \"master\"",
       "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/30",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This aligns the terminology with https://www.ietf.org/rfcdiff?url2=draft-ietf-tls-rfc8446bis-01",
       "createdAt": "2021-02-19T20:59:50Z",
-      "updatedAt": "2021-02-19T20:59:51Z",
+      "updatedAt": "2021-02-22T09:55:53Z",
       "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
       "baseRefName": "main",
       "baseRefOid": "6bd74e9f657854df55076d4ad776b8557b9a6443",
       "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
       "headRefName": "Remove-\"master\"-aligning-with-RFC8446bis",
       "headRefOid": "5fadad4c4cd532ffb74e24ff7dfbafb855f35ef5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-22T09:55:52Z",
+      "mergedAt": "2021-02-22T09:55:52Z",
+      "mergedBy": "emanjon",
+      "mergeCommit": {
+        "oid": "eaf02a4a9361b54cbb0ef80d778d404eaf14d8b4"
+      },
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixes and closes #29",
+          "createdAt": "2021-02-22T09:55:29Z",
+          "updatedAt": "2021-02-22T09:55:29Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 32,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc3NDk2NDgz",
+      "title": "Update draft-westerlund-tsvwg-dtls-over-sctp-bis.md",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/32",
+      "state": "MERGED",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-02-22T09:46:53Z",
+      "updatedAt": "2021-02-22T13:32:17Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "6bd74e9f657854df55076d4ad776b8557b9a6443",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "Renegotiation",
+      "headRefOid": "327dcdae15ceb0243f56c687dced5d1bec8bde47",
+      "closedAt": "2021-02-22T13:32:17Z",
+      "mergedAt": "2021-02-22T13:32:17Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "5ae59bdbe91a9b8c0dafe4ea4dedc2509a04f720"
+      },
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "More information on #31 #24 #23 #22 #12 #13",
+          "createdAt": "2021-02-22T10:31:07Z",
+          "updatedAt": "2021-02-22T10:31:07Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 33,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc3NjUzOTU3",
+      "title": "Mw editorials",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/33",
+      "state": "MERGED",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixing wrapping issue in source and with example message exchange that was over flowing. ",
+      "createdAt": "2021-02-22T13:48:31Z",
+      "updatedAt": "2021-02-22T13:49:53Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "5ae59bdbe91a9b8c0dafe4ea4dedc2509a04f720",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "mw-editorials",
+      "headRefOid": "51a3aa70e97b2400a2f0af258e1643a97dca95e9",
+      "closedAt": "2021-02-22T13:49:53Z",
+      "mergedAt": "2021-02-22T13:49:53Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "1145aee11b333997374dfa37ae76bf3403b18cd5"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 34,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc3NzQ2NDQ3",
+      "title": "Addressing issues in fallback",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/34",
+      "state": "MERGED",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Fallback section was rewritten to address the changes to use adaptation-indication. So this PR should resolve issue #17 and #19.",
+      "createdAt": "2021-02-22T15:57:00Z",
+      "updatedAt": "2021-02-22T15:57:08Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1145aee11b333997374dfa37ae76bf3403b18cd5",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "mw-editorials",
+      "headRefOid": "9e65d7f71217d0ca240f181e7da6e9be22e80edd",
+      "closedAt": "2021-02-22T15:57:08Z",
+      "mergedAt": "2021-02-22T15:57:08Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "03db3ccbbff457b8df949782416e606437443d6f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 36,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc3NzYzMDkx",
+      "title": "Moving out of place requirement on no plain text.",
+      "url": "https://github.com/gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis/pull/36",
+      "state": "MERGED",
+      "author": "gloinul",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Rewrapping text to 70 columns and 3 initial spaces for paragraphs. Removed single sentence in initilization about no user message and wrote new paragraph in DTLS Connection handling that plain text data is a protocol violation and termination is allowed.\r\n\r\nThis addresses #27 ",
+      "createdAt": "2021-02-22T16:20:25Z",
+      "updatedAt": "2021-02-22T16:21:48Z",
+      "baseRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "baseRefName": "main",
+      "baseRefOid": "03db3ccbbff457b8df949782416e606437443d6f",
+      "headRepository": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
+      "headRefName": "mw-editorials",
+      "headRefOid": "c2339422bcb1c56ef72572ea7998e9f598f898e5",
+      "closedAt": "2021-02-22T16:21:48Z",
+      "mergedAt": "2021-02-22T16:21:47Z",
+      "mergedBy": "gloinul",
+      "mergeCommit": {
+        "oid": "a46f47d20dfff7c460f24152cccd0b7b8fa34295"
+      },
       "comments": [],
       "reviews": []
     }
