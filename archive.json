@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-23T00:35:41.512660+00:00",
+  "timestamp": "2021-02-25T00:35:54.375120+00:00",
   "repo": "gloinul/draft-westerlund-tsvwg-dtls-over-sctp-bis",
   "labels": [
     {
@@ -717,7 +717,7 @@
       "labels": [],
       "body": "This document defines a maximum message size SCTP parameter to allow peers to indicate some limitations in the receiver implementation. Currently this is defined in a DTLS/SCTP specific way. However, it appears that this could be a parameter that could be generalized and thus possible one should work to ensure that the parameter is not specific to DTLS/SCTP and instead can be used by other usages to indicate limitations. \r\n\r\nLet us discuss if it would make sense to generalize this, or keep it DTLS/SCTP specific. ",
       "createdAt": "2021-02-22T17:38:21Z",
-      "updatedAt": "2021-02-22T19:43:29Z",
+      "updatedAt": "2021-02-23T11:12:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -726,6 +726,13 @@
           "body": "What kind of use case do you have in mind? Limiting the record size could be done using [RFC 8449](https://tools.ietf.org/html/rfc8449). So isn't the suggested extension useful for transport protocols, which are message oriented and support large messages using multiple records. Right now I don't see any, which would carry DTLS.",
           "createdAt": "2021-02-22T19:43:29Z",
           "updatedAt": "2021-02-22T19:43:29Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "OWNER",
+          "body": "So our draft currently defines a SCTP parameter \"dtls_over_sctp_maximum_message_size\" that provides a limit on the total user message size for the upper layer protocol. This is defined prior to DTLS fragmentation and expansion due to the DTLS record overhead. So this parameter is basically to provide the peer indication of implementation limits in handling certain messages sizes. \r\n\r\nFrom a upper layer protocol perspective this challenge exists in general independently if DTLS is used or not. That is why I am asking if this should be generalized as mechanism so that it could be applied even if this DTLS/SCTP was not used. However, with DTLS in the mix the supported maximum message size becomes a combination of several factors. What the ULP is capable of buffering and processing assuming that the lower layers (DTLS and SCTP) is not the limiting factor. And if DTLS or SCTP or combination if implementation is the limiting factor the limit for that combination. \r\n\r\nSo limitations that could arise without making assumption on implementation are:\r\n\r\n- Buffering in DTLS sender or receiver if the ULP to DTLS API does not support partial message handling. \r\n- SCTP buffering if its API does not support partial message handling\r\n\r\nI hope this makes it clear that I think we have limitations if the implementations all the way are optimal, and even in this case we might want a method for the ULP to express limitations to the peer. \r\n\r\n",
+          "createdAt": "2021-02-23T11:12:10Z",
+          "updatedAt": "2021-02-23T11:12:10Z"
         }
       ]
     }
